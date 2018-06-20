@@ -6,13 +6,15 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:20:38 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/20 17:37:35 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/06/20 19:36:32 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MD5_H
 # define MD5_H
 
+# include "libft.h"
+# include "getopt.h"
 # include <stdint.h>
 
 /*
@@ -21,6 +23,14 @@
 typedef uint32_t	t_md5_int;
 
 # define MD5_BUFFER		1024
+
+/*
+** MD5 OPTIONS
+*/
+# define MD5_OPT_P			1
+# define MD5_OPT_Q			2
+# define MD5_OPT_R			4
+# define MD5_OPT_S			8
 
 /*
 ** MD5 Context
@@ -39,13 +49,14 @@ typedef struct		s_md5_ctx {
 	t_md5_int		bits;
 }					t_md5_ctx;
 
-# define A			regs.a
-# define B			regs.b
-# define C			regs.c
-# define D			regs.d
+# define MD5_A			regs.a
+# define MD5_B			regs.b
+# define MD5_C			regs.c
+# define MD5_D			regs.d
 
 /*
-** dig = digest
+** MD5 FUNCTIONS
+** (ctx = md5_context; dig = digest; msg = message to cypher)
 */
 unsigned char		*md5(unsigned char *msg, t_md5_int len, unsigned char *dig);
 

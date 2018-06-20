@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2518/01/04 15:18:12 by lfabbro           #+#    #+#              #
-#    Updated: 2018/06/20 17:22:24 by lfabbro          ###   ########.fr        #
+#    Updated: 2018/06/20 19:35:21 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ PROJECT		?= ft_ssl
 
 # Sources
 SRC_NAME		= \
-	main.c
+	main.c ft_ssl_md5.c
 
 # Directories
 SRC_PATH	= src

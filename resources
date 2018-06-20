@@ -6,5 +6,6 @@ https://tools.ietf.org/html/rfc1321
 NIST STANDARD [ SHA* ]
 https://csrc.nist.gov/csrc/media/publications/fips/180/4/final/documents/fips180-4-draft-aug2014.pdf
 
-STACKOVERFLOW QUESTION
+STACKOVERFLOW QUESTIONS
 https://stackoverflow.com/questions/9752045/how-to-implement-md5-or-sha1-hashing-in-c
+https://crypto.stackexchange.com/questions/41431/what-does-congruent-to-448-modulo-512-mean-for-padding-in-md5-hash-function

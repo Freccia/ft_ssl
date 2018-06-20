@@ -1,0 +1,10 @@
+
+
+RFC STANDARD [ MD5 ]
+https://tools.ietf.org/html/rfc1321
+
+NIST STANDARD [ SHA* ]
+https://csrc.nist.gov/csrc/media/publications/fips/180/4/final/documents/fips180-4-draft-aug2014.pdf
+
+STACKOVERFLOW QUESTION
+https://stackoverflow.com/questions/9752045/how-to-implement-md5-or-sha1-hashing-in-c

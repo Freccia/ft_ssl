@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/20 19:42:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/06/25 11:13:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@
 # include "getopt.h"
 # include <stdint.h>
 
-# define MD5_OPTIONS		"hpqrs"
+# define N_CYPHERS		1
 
-/*
-** Do NOT use 1 as value in SSL_CYPH_* as it will conflicts with RETURN_FAILURE
-*/
-# define SSL_CYPH_MD5		2
-# define SSL_CYPH_SHA1		4
-# define SSL_CYPH_SHA256	8
+typedef struct			s_ssl_cypher
+{
+	char				name[32];
+	int					(*ft_cypher)(int, char **);
+}						t_ssl_cypher;
 
 typedef struct			s_ssl_ctx
 {
 	int64_t				opt;
-	int32_t				cypher;
+	t_ssl_cypher		cypher[N_CYPHERS];
 }						t_ssl_ctx;
 
 /*

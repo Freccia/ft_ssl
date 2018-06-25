@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 11:28:22 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/06/25 11:34:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static const char			*g_ft_ssl_usage =
 	"cypher: md5, sha1, sha256\n"
 };
 
-static const char			*g_ft_ssl_invalid_cypher =
+static const char			*g_ft_ssl_invalid_cyph =
 {
 	"%s: Error: '%s' is an invalid command.\n"\
 	"\nStandard commands:\n"
@@ -49,13 +49,13 @@ static const char			*g_ft_ssl_invalid_cypher =
 	"\nCypher commands:\n"
 };
 
+/* TODO should implement sha1 and sha256*/
 void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
 	ctx->cypher[0] = cy_md5;
-/* TODO should implement sha1 and sha256*/
-//	ctx->cypher[1] = {"sha1", ft_ssl_sha1};
-//	ctx->cypher[2] = {"sha256", ft_ssl_sha256};
+//	ctx->cypher[1] = cy_sha1;
+//	ctx->cypher[2] = cy_sha256;
 }
 
 int			ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
@@ -69,8 +69,7 @@ int			ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
 			return (ctx->cypher[i].ft_cypher(ac - g_optind, &av[g_optind]));
 		++i;
 	}
-	ft_exit(EXIT_FAILURE, g_ft_ssl_invalid_cypher, av[0], av[1]);
-	return (EXIT_FAILURE);
+	return (ft_exit(EXIT_FAILURE, g_ft_ssl_invalid_cyph, av[0], av[g_optind]));
 }
 
 int			main(int ac, char **av)

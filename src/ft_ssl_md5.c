@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 19:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 10:41:02 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/06/25 12:15:22 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int			ft_ssl_md5_getopt(int ac, char **av, int64_t *opt)
 {
 	int		o;
 
-	g_optind = 0;
-	while (/*TODO removeme*/ac > 0 &&
-			(o = ft_getopt(ac, av, MD5_OPTIONS)) != EXIT_FAILURE)
+	g_optind = 1;
+	g_optreset = 1;
+	while (g_optind <= ac && (o = ft_getopt(ac, av, MD5_OPTIONS)) != -1)
 	{
 		if (o == 'h' || o == BADCH || o == BADARG)
 			ft_exit(EXIT_FAILURE, g_md5_usage, av[0]);

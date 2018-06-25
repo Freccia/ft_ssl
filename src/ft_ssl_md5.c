@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 19:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 16:31:22 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/06/25 17:16:23 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int			ft_ssl_md5_getopt(int ac, char **av, int64_t *opt)
 
 int			ft_ssl_md5(int ac, char **av)
 {
-	int64_t		opt;
-	int64_t		len;
-	char		*msg;
-	char		digest[40];
+	int64_t			opt;
+	int64_t			len;
+	char			*msg;
+	unsigned char	digest[16];
 
 	opt = 0;
 	ft_ssl_md5_getopt(ac, av, &opt);
@@ -61,6 +61,6 @@ int			ft_ssl_md5(int ac, char **av)
 		return (EXIT_SUCCESS);
 	if ((len = ft_ssl_strlen(msg)) > UINT_MAX)
 		return (ft_exit(EXIT_FAILURE, g_md5_longerr, av[0]));
-	md5((unsigned char*)msg, (t_int_md5)len, (unsigned char*)digest);
+	md5((unsigned char*)msg, (t_int_md5)len, digest);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 11:13:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/06/25 16:31:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,13 @@ typedef struct			s_ssl_ctx
 }						t_ssl_ctx;
 
 /*
-** FT_SSL FUNCTIONS
+** FT_SSL TOOL FUNCTIONS
+*/
+char					*ft_ssl_readline(int fd);
+uint64_t				ft_ssl_strlen(char *msg);
+
+/*
+** FT_SSL CYPHERS FUNCTIONS
 */
 int						ft_ssl_md5(int ac, char **av);
 int						ft_ssl_md5_getopt(int ac, char **av, int64_t *opt);

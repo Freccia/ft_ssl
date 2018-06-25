@@ -6,26 +6,12 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 11:34:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/06/25 15:33:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
-
-/*
-int			ft_ssl_getopt(int ac, char **av, t_ssl_ctx *ctx)
-{
-	(void)ac;
-	int		o;
-	while ((o = ft_getopt(ac, av, SSL_OPTIONS)) != EXIT_FAILURE)
-	{
-		if (o == 'h' || o == BADCH || o == BADARG)
-			ft_exit(EXIT_FAILURE, g_usage, av[0]);
-		ctx->opt += (o == 'p') ? SSL_OPT_P : 0;
-	}
-	return (EXIT_SUCCESS);
-}
-*/
+#include "get_next_line.h"
 
 static const t_ssl_cypher	cy_md5 =
 {
@@ -48,6 +34,26 @@ static const char			*g_ft_ssl_invalid_cyph =
 	"md5\n"
 	"\nCypher commands:\n"
 };
+
+char		*ft_ssl_readline(int fd)
+{
+	char	*line;
+
+	line = NULL;
+	if (get_next_line_nl(fd, &line) > 0)
+		return (line);
+	return (NULL);
+}
+
+uint64_t	ft_ssl_strlen(char *msg)
+{
+	uint64_t	len;
+
+	len = 0;
+	while (msg[len++])
+		;
+	return (len);
+}
 
 /* TODO should implement sha1 and sha256*/
 void		ft_ssl_init_ctx(t_ssl_ctx *ctx)

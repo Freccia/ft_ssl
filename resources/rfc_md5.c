@@ -124,16 +124,13 @@ void MD5Update (context, input, inputLen)
 	index = (unsigned int)((context->count[0] >> 3) & 0x3F);
 
 	/* Update number of bits */
-	if ((context->count[0] += ((UINT4)inputLen << 3))
-
-			< ((UINT4)inputLen << 3))
+	if ((context->count[0] += ((UINT4)inputLen << 3)) < ((UINT4)inputLen << 3))
 		context->count[1]++;
 	context->count[1] += ((UINT4)inputLen >> 29);
 
 	partLen = 64 - index;
 
-	/* Transform as many times as possible.
-	*/
+	/* Transform as many times as possible.*/
 	if (inputLen >= partLen) {
 		MD5_memcpy
 			((POINTER)&context->buffer[index], (POINTER)input, partLen);

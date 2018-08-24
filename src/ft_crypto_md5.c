@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 17:41:08 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/24 13:30:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,5 +111,6 @@ unsigned char		*md5(unsigned char *msg, t_int_md5 len,
 	ctx.regs[MD5_B] = 0xefcdab89;
 	ctx.regs[MD5_C] = 0x98badcfe;
 	ctx.regs[MD5_D] = 0x10325476;
+	(void)ctx;
 	return (NULL);
 }

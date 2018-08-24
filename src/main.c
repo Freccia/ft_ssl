@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 15:33:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/24 13:28:00 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ uint64_t	ft_ssl_strlen(char *msg)
 }
 
 /* TODO should implement sha1 and sha256*/
-void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
+static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
 	ctx->cypher[0] = cy_md5;
@@ -64,7 +64,7 @@ void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 //	ctx->cypher[2] = cy_sha256;
 }
 
-int			ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
+static int			ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
 {
 	int		i;
 

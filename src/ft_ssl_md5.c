@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 19:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 17:37:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/24 13:28:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static const char	*g_md5_longerr =
 	"	Limit fixed to 34,35 GB (34359738360 bytes)\n"
 };
 
-int			ft_ssl_md5_getopt(int ac, char **av, int64_t *opt)
+static int			ft_ssl_md5_getopt(int ac, char **av, int64_t *opt)
 {
 	int		o;
 

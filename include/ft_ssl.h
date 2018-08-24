@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 16:31:08 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/24 13:28:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ uint64_t				ft_ssl_strlen(char *msg);
 ** FT_SSL CYPHERS FUNCTIONS
 */
 int						ft_ssl_md5(int ac, char **av);
-int						ft_ssl_md5_getopt(int ac, char **av, int64_t *opt);
 
 #endif

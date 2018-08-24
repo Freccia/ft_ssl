@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/24 13:30:35 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/24 13:40:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,16 @@ static unsigned char md5_padding[64] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
+void				md5_init(t_md5_ctx *ctx)
+{
+	ctx->size = 0;
+	ctx->bits = 0;
+	ctx->regs[MD5_A] = 0x67452301;
+	ctx->regs[MD5_B] = 0xefcdab89;
+	ctx->regs[MD5_C] = 0x98badcfe;
+	ctx->regs[MD5_D] = 0x10325476;
+}
+
 unsigned char		*md5(unsigned char *msg, t_int_md5 len,
 						unsigned char *digest)
 {
@@ -105,12 +115,6 @@ unsigned char		*md5(unsigned char *msg, t_int_md5 len,
 	(void)digest;
 	t_md5_ctx		ctx;
 
-	ctx.size = 0;
-	ctx.bits = 0;
-	ctx.regs[MD5_A] = 0x67452301;
-	ctx.regs[MD5_B] = 0xefcdab89;
-	ctx.regs[MD5_C] = 0x98badcfe;
-	ctx.regs[MD5_D] = 0x10325476;
-	(void)ctx;
+	md5_init(&ctx);
 	return (NULL);
 }

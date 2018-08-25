@@ -6,14 +6,14 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/24 13:28:00 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/25 16:36:40 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 #include "get_next_line.h"
 
-static const t_ssl_cypher	cy_md5 =
+static const t_ssl_cypher	cypher_md5 =
 {
 	"md5",
 	ft_ssl_md5
@@ -21,7 +21,7 @@ static const t_ssl_cypher	cy_md5 =
 
 static const char			*g_ft_ssl_usage =
 {
-	"Usage: %s [ options ] cypher [ options ]\n"\
+	"Usage: %s [ options ] (cypher) [ options ]\n"\
 	"		-h : Show this help message\n"\
 	"cypher: md5, sha1, sha256\n"
 };
@@ -59,7 +59,7 @@ uint64_t	ft_ssl_strlen(char *msg)
 static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
-	ctx->cypher[0] = cy_md5;
+	ctx->cypher[0] = cypher_md5;
 //	ctx->cypher[1] = cy_sha1;
 //	ctx->cypher[2] = cy_sha256;
 }

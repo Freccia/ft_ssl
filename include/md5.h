@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:48:36 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/06/25 16:27:29 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/25 16:14:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,18 @@
 # define MD5_H
 
 # include "libft.h"
+# include "error.h"
 # include "getopt.h"
 # include <stdint.h>
 
 /*
-** Using 32bits long ints
+** Using 32bits long ints for md5 operations
 */
-typedef uint32_t	t_int_md5;
+typedef uint32_t	u32;
 
-# define MD5_OPTIONS	"-hpqrs"
-# define MD5_BUFFER		1024
+# define MD5_OPTIONS		"-hpqrs"
+# define MD5_BUFFER_SIZE	16
+# define MD5_DIGEST_SIZE	4
 
 /*
 ** MD5 Options
@@ -83,21 +85,29 @@ typedef uint32_t	t_int_md5;
 # define MD5_C			2
 # define MD5_D			3
 
+/*
+**	byte_count: bytes already parsed
+**	len: message lenght
+**	msg: message to be hashed
+**	buf: buffer for md5 operations (512 bits long)
+**	regs: registers (A,B,C,D) for operations
+*/
+
 typedef struct		s_md5_ctx {
-	t_int_md5		regs[4];
-	unsigned char	buf[64];
-	t_int_md5		size;
-	t_int_md5		bits;
-}					t_md5_ctx;
+	uint32_t	byte_count;
+	uint32_t	buf[MD5_BUFFER_SIZE];
+	uint32_t	regs[4];
+}					t_md5;
 
 /*
 ** MD5 FUNCTIONS
 ** (ctx = md5_context; dig = digest; msg = message to cypher)
 */
-unsigned char		*md5(unsigned char *msg, t_int_md5 len, unsigned char *dig);
+uint8_t				*md5(uint8_t *msg,
+						uint32_t len, uint32_t digest[MD5_DIGEST_SIZE]);
 
-void				md5_init(t_md5_ctx *ctx);
-void				md5_update(t_md5_ctx *ctx);
-void				m5_final(unsigned char *dig, t_md5_ctx *ctx);
+void				md5_init(t_md5 *ctx);
+void				md5_update(t_md5 *ctx, const uint8_t *msg, uint32_t len);
+void				md5_final(uint32_t digest[MD5_DIGEST_SIZE], t_md5 *ctx);
 
 #endif

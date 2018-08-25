@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/24 13:28:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/25 16:19:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "getopt.h"
 # include <stdint.h>
 
-# define N_CYPHERS		1
+# define N_CYPHERS		2
 
 typedef struct			s_ssl_cypher
 {

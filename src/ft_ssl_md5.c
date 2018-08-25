@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 19:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/25 16:43:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/25 16:53:52 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ int			ft_ssl_md5(int ac, char **av)
 	opt = 0;
 	ft_ssl_md5_getopt(ac, av, &opt);
 	if ((msg = ft_ssl_readline(STDIN_FILENO)) == NULL)
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE); /* TODO should print void message's digest*/
+	ft_printf("msg: '%s'\n", msg);
 	if ((len = ft_ssl_strlen(msg)) > UINT_MAX)
 		return (ft_exit(EXIT_FAILURE, g_md5_longerr, av[0]));
 	md5((uint8_t*)msg, (uint32_t)len, digest);
 	ft_printf("%x%x%x%x  -\n", digest[0], digest[1], digest[2], digest[3]);
-	ft_printf("%p  -\n", digest);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/25 16:37:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/25 18:27:27 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void				m5_final(uint8_t *dig, t_md5 *ctx);
 	x[14] = buf[14];
 	x[15] = buf[15];
 */
-static void			md5_transform(t_md5 *ctx)
+static void			md5_transform(t_md5 *ctx, uint8_t *ptr)
 {
 	uint32_t	a;
 	uint32_t	b;
@@ -118,7 +118,23 @@ static void			md5_transform(t_md5 *ctx)
 	c = ctx->regs[MD5_C];
 	d = ctx->regs[MD5_D];
 
-	x = ctx->buf;
+#ifdef DEBUG
+	uint8_t *p;
+	p=(uint8_t *)&a;
+	printf("%2.2x%2.2x%2.2x%2.2x ", p[0], p[1], p[2], p[3], a);
+
+	p=(uint8_t *)&b;
+	printf("%2.2x%2.2x%2.2x%2.2x ", p[0], p[1], p[2], p[3], b);
+
+	p=(uint8_t *)&c;
+	printf("%2.2x%2.2x%2.2x%2.2x ", p[0], p[1], p[2], p[3], c);
+
+	p=(uint8_t *)&d;
+	printf("%2.2x%2.2x%2.2x%2.2x", p[0], p[1], p[2], p[3], d);
+	puts("");
+#endif
+
+	x = ptr;
 
 	/* Round 1 */
 	FF (a, b, c, d, x[ 0], S11, 0xd76aa478);
@@ -214,66 +230,40 @@ void				md5_init(t_md5 *ctx)
 **	0x3f == 63 == 0b111111
 */
 
-void				md5_update(t_md5 *ctx, const uint8_t *msg, uint32_t len)
-{
-	const uint32_t avail = sizeof(ctx->buf) - (ctx->byte_count & 0x3f);
-
-	ctx->byte_count += len;
-	if (avail > len)
-	{
-		ft_memcpy((char*)ctx->buf + (sizeof(ctx->buf) - avail), msg, len);
-		return ;
-	}
-	ft_memcpy((char *)ctx->buf + (sizeof(ctx->buf) - avail), msg, avail);
-	md5_transform(ctx);
-	msg += avail;
-	len -= avail;
-	while (len > MD5_BUFFER_SIZE)
-	{
-		ft_memcpy(ctx->buf, msg, MD5_BUFFER_SIZE);
-		md5_transform(ctx);
-		msg += avail;
-		len -= avail;
-	}
-	ft_memcpy(ctx->buf, msg, len);
-}
-
-void				md5_final(uint32_t *digest, t_md5 *ctx)
-{
-	const unsigned int offset = ctx->byte_count & 0x3f;
-	char *p = (char *)ctx->buf + offset;
-	int padding = 56 - (offset + 1);
-
-	*p++ = 0x80;
-	if (padding < 0) {
-		ft_memset(p, 0x00, padding + sizeof (uint64_t));
-		md5_transform(ctx);
-		p = (char *)ctx->buf;
-		padding = 56;
-	}
-	ft_memset(p, 0, padding);
-	ctx->buf[14] = ctx->byte_count << 3;
-	ctx->buf[15] = ctx->byte_count >> 29;
-	md5_transform(ctx);
-	//ft_memcpy(digest, ctx->hash, sizeof(mctx->hash));
-	digest[0] = ctx->regs[MD5_A];
-	digest[1] = ctx->regs[MD5_B];
-	digest[2] = ctx->regs[MD5_C];
-	digest[3] = ctx->regs[MD5_D];
-	ft_memset(ctx, 0, sizeof(*ctx)); /* security override */
-
-}
-
 uint8_t				*md5(uint8_t *msg, uint32_t len, uint32_t *digest)
 {
-	(void)msg;
-	(void)len;
-	(void)digest;
-	t_md5	ctx;
+	t_md5		ctx;
+	int32_t		newlen;
+	uint8_t		*data;
+	int32_t		offset;
+	uint8_t		*p;
+	uint32_t	bits;
 
 	md5_init(&ctx);
 	//ft_strndup(ctx->msg, msg, ctx->len); // maybe we can avoid this operation
-	md5_update(&ctx, msg, len);
-	md5_final(digest, &ctx);
+	newlen = len * 8;
+	while (newlen % 512 != 448)
+		++newlen;
+	newlen /= 8;
+	data = malloc(newlen + 64);
+	ft_memset(data, '\0', newlen);
+	ft_memcpy(data, msg, len);
+	data[len] = 0x80; /* write 0x10000000 */
+	bits = len * 8;
+	memcpy(data + newlen, &bits, 4);/* len in bits at the end of the buf */
+	ft_printf("NEWLEN: %d\n", newlen);
+	offset = 0;
+	p = data;
+	while (offset < newlen)
+	{
+		ft_printf("OFFSET: %d\n", offset);
+		for (int i = 0; i < 64; i++)
+			md5_transform(&ctx, p);
+		p = p + offset;
+		offset += 512 / 8;
+	}
+	ft_printf("%x%x%x%x  -\n", ctx.regs[MD5_A], ctx.regs[MD5_B],
+								ctx.regs[MD5_C],ctx.regs[MD5_D]);
+	//md5_final(digest, &ctx);
 	return (NULL);
 }

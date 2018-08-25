@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2518/01/04 15:18:12 by lfabbro           #+#    #+#              #
-#    Updated: 2018/06/25 16:31:53 by lfabbro          ###   ########.fr        #
+#    Updated: 2018/08/25 17:35:51 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,7 @@ ifndef VERBOSE
 .SILENT:
  endif
 endif
+
 # Commands
 PRINTF		= test $(VERBOSE)$(TRAVIS) || printf
 MAKE		?= make -j$(shell nproc 2>/dev/null || echo 4)
@@ -112,7 +113,8 @@ dev:
 	+$(SUB_MAKE) $(LFT_DIR) #dev
 	@$(PRINTF) "%-25s"    "$(PROJECT): bin"
 	+$(MAKE) $(PROJECT).dev  "PROJECT = $(PROJECT).dev"  "CFLAGS = $(DCFLAGS)" \
-		"OBJ_PATH = $(OBJ_DIR)/dev"  "LFT = libft.dev.a"  "LFTLD = -lft.dev"
+		"OBJ_PATH = $(OBJ_DIR)/dev"  "LFT = libft.a"  "LFTLD = -lft.dev"
+		#"OBJ_PATH = $(OBJ_DIR)/dev"  "LFT = libft.dev.a"  "LFTLD = -lft.dev"
 	@$(PRINTF) "$(CR)$(GREEN)✔$(ENDC)\n"
 
 san:

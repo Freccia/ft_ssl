@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/25 16:36:40 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/08/26 18:01:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ uint64_t	ft_ssl_strlen(char *msg)
 {
 	uint64_t	len;
 
-	len = 0;
-	while (msg[len++])
+	len = -1;
+	while (msg[++len])
 		;
 	return (len);
 }

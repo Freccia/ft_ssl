@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/25 16:19:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/07 18:49:29 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,31 @@
 
 # include "libft.h"
 # include "getopt.h"
+# include "error.h"
 # include <stdint.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 # define N_CYPHERS		2
 
+/*
+** SSL Cypher Options
+*/
+# define SSL_OPTIONS	"hpqrs:"
+# define SSL_OPT_P		1
+# define SSL_OPT_Q		2
+# define SSL_OPT_R		4
+# define SSL_OPT_S		8
+# define SSL_OPT_END	16
+
+
 typedef struct			s_ssl_cypher
 {
-	char				name[32];
-	int					(*ft_cypher)(int, char **);
+	char				name[8];
+	char				cy_name[8];
+	int32_t				digest_size;
+	void				(*ft_cypher)(const uint8_t *msg, uint32_t len, uint32_t d[4]);
 }						t_ssl_cypher;
 
 typedef struct			s_ssl_ctx
@@ -34,12 +51,12 @@ typedef struct			s_ssl_ctx
 /*
 ** FT_SSL TOOL FUNCTIONS
 */
-char					*ft_ssl_readline(int fd);
+char					*ft_ssl_readin(int fd);
 uint64_t				ft_ssl_strlen(char *msg);
 
 /*
 ** FT_SSL CYPHERS FUNCTIONS
 */
-int						ft_ssl_md5(int ac, char **av);
+int						ft_ssl(int ac, char **av, t_ssl_cypher *chyphr);
 
 #endif

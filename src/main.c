@@ -6,24 +6,29 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/26 18:01:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/07 15:44:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "md5.h"
 #include "ft_ssl.h"
 #include "get_next_line.h"
+#include "error.h"
+#include <unistd.h>
 
 static const t_ssl_cypher	cypher_md5 =
 {
 	"md5",
-	ft_ssl_md5
+	"MD5",
+	MD5_DIGEST_SIZE,
+	md5
 };
 
 static const char			*g_ft_ssl_usage =
 {
 	"Usage: %s [ options ] (cypher) [ options ]\n"\
 	"		-h : Show this help message\n"\
-	"cypher: md5, sha1, sha256\n"
+	"cypher: md5, sha256\n"
 };
 
 static const char			*g_ft_ssl_invalid_cyph =
@@ -32,17 +37,28 @@ static const char			*g_ft_ssl_invalid_cyph =
 	"\nStandard commands:\n"
 	"\nMessage Digest commands:\n"
 	"md5\n"
+	"sha256\n"
 	"\nCypher commands:\n"
 };
 
-char		*ft_ssl_readline(int fd)
+char		*ft_ssl_readin(int fd)
 {
-	char	*line;
+	char		buf[64];
+	char		*line;
+	char		*tmp;
+	int32_t		ret;
 
+	tmp = NULL;
 	line = NULL;
-	if (get_next_line_nl(fd, &line) > 0)
-		return (line);
-	return (NULL);
+	while ((ret = read(fd, &buf, 64)))
+	{
+		buf[ret] = 0;
+		tmp = line;
+		if ((line = ft_strjoin(line, buf)) == NULL)
+			ft_exit(EXIT_FAILURE, FAIL_MALLOC);
+		free(tmp);
+	}
+	return (line);
 }
 
 uint64_t	ft_ssl_strlen(char *msg)
@@ -55,13 +71,13 @@ uint64_t	ft_ssl_strlen(char *msg)
 	return (len);
 }
 
-/* TODO should implement sha1 and sha256*/
+/* TODO should implement sha256*/
 static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
 	ctx->cypher[0] = cypher_md5;
-//	ctx->cypher[1] = cy_sha1;
 //	ctx->cypher[2] = cy_sha256;
+//	ctx->cypher[1] = cy_sha1;
 }
 
 static int			ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
@@ -72,7 +88,7 @@ static int			ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
 	while (i < N_CYPHERS)
 	{
 		if (ft_strcmp(ctx->cypher[i].name, av[g_optind]) == 0)
-			return (ctx->cypher[i].ft_cypher(ac - g_optind, &av[g_optind]));
+			return (ft_ssl(ac - g_optind, &av[g_optind], &(ctx->cypher[i])));
 		++i;
 	}
 	return (ft_exit(EXIT_FAILURE, g_ft_ssl_invalid_cyph, av[0], av[g_optind]));

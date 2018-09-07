@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:48:36 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/08/25 16:14:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/07 15:50:51 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MD5_H
 
 # include "libft.h"
-# include "error.h"
-# include "getopt.h"
 # include <stdint.h>
 
 /*
@@ -23,17 +21,8 @@
 */
 typedef uint32_t	u32;
 
-# define MD5_OPTIONS		"-hpqrs"
 # define MD5_BUFFER_SIZE	16
 # define MD5_DIGEST_SIZE	4
-
-/*
-** MD5 Options
-*/
-# define MD5_OPT_P		1
-# define MD5_OPT_Q		2
-# define MD5_OPT_R		4
-# define MD5_OPT_S		8
 
 /*
 ** MD5 Basic Functions
@@ -94,17 +83,17 @@ typedef uint32_t	u32;
 */
 
 typedef struct		s_md5_ctx {
-	uint32_t	byte_count;
-	uint32_t	buf[MD5_BUFFER_SIZE];
-	uint32_t	regs[4];
+	uint32_t		byte_count;
+	uint32_t		buf[MD5_BUFFER_SIZE];
+	uint32_t		regs[4];
 }					t_md5;
 
 /*
 ** MD5 FUNCTIONS
 ** (ctx = md5_context; dig = digest; msg = message to cypher)
 */
-uint8_t				*md5(uint8_t *msg,
-						uint32_t len, uint32_t digest[MD5_DIGEST_SIZE]);
+void				md5(const uint8_t *msg, uint32_t len,
+						uint32_t digest[MD5_DIGEST_SIZE]);
 
 void				md5_init(t_md5 *ctx);
 void				md5_update(t_md5 *ctx, const uint8_t *msg, uint32_t len);

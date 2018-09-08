@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:48:36 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/07 15:50:51 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 17:47:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@
 */
 typedef uint32_t	u32;
 
-# define MD5_BUFFER_SIZE	16
-# define MD5_DIGEST_SIZE	4
+/* in bytes */
+# define MD5_BUFFER_SIZE	64
+# define MD5_DIGEST_SIZE	4  /* 4*32 = 128 bits*/
 
 /*
 ** MD5 Basic Functions
@@ -75,28 +76,26 @@ typedef uint32_t	u32;
 # define MD5_D			3
 
 /*
-**	byte_count: bytes already parsed
-**	len: message lenght
-**	msg: message to be hashed
-**	buf: buffer for md5 operations (512 bits long)
+**	bitcount: bits already parsed (bitcount[1] for overflow)
 **	regs: registers (A,B,C,D) for operations
+**	buff: buffer for md5 operations (512 bits long -> 8*64)
 */
-
 typedef struct		s_md5_ctx {
-	uint32_t		byte_count;
-	uint32_t		buf[MD5_BUFFER_SIZE];
 	uint32_t		regs[4];
+	uint32_t		bitcount[2];
+	uint8_t			buff[MD5_BUFFER_SIZE];
 }					t_md5;
 
 /*
 ** MD5 FUNCTIONS
-** (ctx = md5_context; dig = digest; msg = message to cypher)
+** (ctx = md5_context; dig = digest; data = data to cypher)
 */
-void				md5(const uint8_t *msg, uint32_t len,
-						uint32_t digest[MD5_DIGEST_SIZE]);
+void md5(const uint8_t *msg, uint32_t len, uint32_t *dig);
+int  md5_file (const char *filename);
 
 void				md5_init(t_md5 *ctx);
-void				md5_update(t_md5 *ctx, const uint8_t *msg, uint32_t len);
+void				md5_pad(t_md5 *ctx);
+void				md5_update(t_md5 *ctx, const uint8_t *data, uint32_t len);
 void				md5_final(uint32_t digest[MD5_DIGEST_SIZE], t_md5 *ctx);
 
 #endif

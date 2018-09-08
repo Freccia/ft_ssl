@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/07 18:49:29 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 17:47:41 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ typedef struct			s_ssl_cypher
 {
 	char				name[8];
 	char				cy_name[8];
-	int32_t				digest_size;
-	void				(*ft_cypher)(const uint8_t *msg, uint32_t len, uint32_t d[4]);
+	uint32_t			digest_size;
+	int					(*ft_file)(const char *filename);
+	void				(*ft_cypher)(const uint8_t *msg, uint32_t len, uint32_t dig[4]);
 }						t_ssl_cypher;
 
 typedef struct			s_ssl_ctx

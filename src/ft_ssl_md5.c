@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 19:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/07 19:26:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 17:48:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,14 @@ static void	ft_ssl_string(const t_ssl_cypher *cypher, char *msg, int opt)
 static int	ft_ssl_files(int ac, char **av, t_ssl_cypher *cypher, int opt)
 {
 	int			i;
-	int			fd;
 	int			fail;
-	char		*msg;
-	int64_t		len;
 	uint32_t	dig[cypher->digest_size];
 
-	len = 0;
 	fail = 0;
 	i = g_optind;
 	while (i < ac && av[i])
 	{
+	/*
 		if ((fd = open(av[i++], O_RDONLY)) < 0)
 		{
 			++fail;
@@ -88,6 +85,8 @@ static int	ft_ssl_files(int ac, char **av, t_ssl_cypher *cypher, int opt)
 		if (msg && (len = ft_ssl_strlen(msg)) > UINT32_MAX)
 			ft_exit(EXIT_FAILURE, g_ssl_longerr, cypher->name);
 		cypher->ft_cypher((uint8_t*)msg, (uint32_t)len, dig);
+		*/
+		fail = cypher->ft_file(av[i]);
 		if (opt & SSL_OPT_Q)
 			ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
 		else if (opt & SSL_OPT_R)
@@ -95,6 +94,7 @@ static int	ft_ssl_files(int ac, char **av, t_ssl_cypher *cypher, int opt)
 		else
 			ft_printf("%s (%s) = %x%x%x%x\n",
 				cypher->cy_name, av[1], dig[0], dig[1], dig[2], dig[3]);
+		i++;
 	}
 	return (fail);
 }

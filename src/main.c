@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 18:29:35 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 20:27:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,29 @@ static const t_ssl_cypher	cypher_md5 =
 	"md5",
 	"MD5",
 	MD5_DIGEST_SIZE,
+	ssl_md5_init,
+	ssl_md5_update,
+	ssl_md5_final,
+	md5_filter,
 	md5_file,
 	md5_data
 };
+
+/*
+static const t_ssl_cypher	cypher_sha256 =
+{
+	"sha256",
+	"SHA256",
+	SHA256_CTX_SIZE,
+	SHA256_DIGEST_SIZE,
+	ssl_sha256_init,
+	ssl_sha256_update,
+	ssl_sha256_final,
+	sha256_file,
+	sha256_data
+};
+*/
+
 
 static const char			*g_ft_ssl_usage =
 {
@@ -77,7 +97,7 @@ static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
 	ctx->cypher[0] = cypher_md5;
-//	ctx->cypher[2] = cy_sha256;
+//	ctx->cypher[2] = cypher_sha256;
 //	ctx->cypher[1] = cy_sha1;
 }
 

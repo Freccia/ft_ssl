@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_crypto_md5.c                                    :+:      :+:    :+:   */
+/*   ft_md5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 18:30:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 20:36:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ int		md5_file(const char *filename, uint32_t *digest)
 	{
 		md5_update(&ctx, buffer, len);
 	}
-	md5_final(digest, &ctx);
+	md5_final(&ctx, digest);
 	close(fd);
 	return (EXIT_SUCCESS);
 }
 
-void	md5_data(const uint8_t *msg, uint32_t len, uint32_t *dig)
+void	md5_data(const uint8_t *msg, uint32_t len, uint32_t *digest)
 {
 	t_md5		ctx;
 	uint32_t	parsed_len;
@@ -103,7 +103,26 @@ void	md5_data(const uint8_t *msg, uint32_t len, uint32_t *dig)
 		md5_update(&ctx, msg + parsed_len, len);
 	//	parsed_len += 64;
 	//}
-	md5_final(dig, &ctx);
+	md5_final(&ctx, digest);
+}
+
+void	md5_filter(int quiet)
+{
+	t_md5		ctx;
+	int64_t		len;
+	uint32_t	dig[MD5_DIGEST_SIZE];
+	uint8_t		buffer[1024];
+
+	len = 0;
+	md5_init(&ctx);
+	while ((len = read(STDIN_FILENO, buffer, 1024)))
+	{
+		buffer[len] = 0;
+		if (!quiet)
+			ft_printf("%s", buffer);
+		md5_update(&ctx, buffer, len);
+	}
+	md5_final(&ctx, dig);
 }
 
 void			md5_init(t_md5 *ctx)
@@ -151,7 +170,7 @@ void			md5_update(t_md5 *ctx, const uint8_t *data, uint32_t datalen)
 	memcpy((void*)&ctx->buff[idx], (const void*)&data[i], datalen - i);
 }
 
-void			md5_pad(t_md5 *ctx)
+static void			md5_pad(t_md5 *ctx)
 {
 	uint8_t		bits[8];
 	uint32_t	idx;
@@ -173,8 +192,10 @@ void			md5_pad(t_md5 *ctx)
 **	MD5_BUFFER_SIZE: 64 bytes == 512 bits
 **	0x3f == 63 == 0b111111
 */
-void			md5_final(uint32_t digest[MD5_DIGEST_SIZE], t_md5 *ctx)
+void			md5_final(t_md5 *context, uint32_t digest[MD5_DIGEST_SIZE])
 {
+	t_md5		*ctx = context;
+
 	md5_pad(ctx);
 	/* Store state in digest */
 	encode((uint8_t*)digest, ctx->regs, 4);

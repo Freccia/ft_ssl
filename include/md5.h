@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:48:36 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 18:28:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 20:32:09 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ typedef struct		s_md5_ctx {
 ** MD5 FUNCTIONS
 ** (ctx = md5_context; dig = digest; data = data to cypher)
 */
-void md5_data(const uint8_t *msg, uint32_t len, uint32_t *dig);
-int  md5_file (const char *filename, uint32_t *dig);
-
 void				md5_init(t_md5 *ctx);
-void				md5_pad(t_md5 *ctx);
+//void				md5_pad(t_md5 *ctx);
 void				md5_update(t_md5 *ctx, const uint8_t *data, uint32_t len);
-void				md5_final(uint32_t digest[MD5_DIGEST_SIZE], t_md5 *ctx);
+void				md5_final(t_md5 *ctx, uint32_t digest[MD5_DIGEST_SIZE]);
+int					md5_file (const char *filename, uint32_t *dig);
+void				md5_data(const uint8_t *msg, uint32_t len, uint32_t *dig);
+void				md5_filter(int quiet);
 
 #endif

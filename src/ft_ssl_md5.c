@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 19:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 17:48:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 18:29:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	ft_ssl_filter(const t_ssl_cypher *cypher, int opt)
 	msg = ft_ssl_readin(STDIN_FILENO);
 	if (msg && (len = ft_ssl_strlen(msg)) > UINT32_MAX)
 		ft_exit(EXIT_FAILURE, g_ssl_longerr, cypher->name);
-	cypher->ft_cypher((uint8_t*)msg, (uint32_t)len, dig);
+	cypher->ft_data((uint8_t*)msg, (uint32_t)len, dig);
 	if (opt & SSL_OPT_Q)
 		ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
 	else
@@ -55,7 +55,7 @@ static void	ft_ssl_string(const t_ssl_cypher *cypher, char *msg, int opt)
 
 	if ((len = ft_ssl_strlen(msg)) > UINT32_MAX)
 		ft_exit(EXIT_FAILURE, g_ssl_longerr, cypher->name);
-	cypher->ft_cypher((uint8_t*)msg, (uint32_t)len, dig);
+	cypher->ft_data((uint8_t*)msg, (uint32_t)len, dig);
 	if (opt & SSL_OPT_Q)
 		ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
 	else if (opt & SSL_OPT_R)
@@ -75,18 +75,7 @@ static int	ft_ssl_files(int ac, char **av, t_ssl_cypher *cypher, int opt)
 	i = g_optind;
 	while (i < ac && av[i])
 	{
-	/*
-		if ((fd = open(av[i++], O_RDONLY)) < 0)
-		{
-			++fail;
-			continue ;
-		}
-		msg = ft_ssl_readin(fd);
-		if (msg && (len = ft_ssl_strlen(msg)) > UINT32_MAX)
-			ft_exit(EXIT_FAILURE, g_ssl_longerr, cypher->name);
-		cypher->ft_cypher((uint8_t*)msg, (uint32_t)len, dig);
-		*/
-		fail = cypher->ft_file(av[i]);
+		fail = cypher->ft_file(av[i], dig);
 		if (opt & SSL_OPT_Q)
 			ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
 		else if (opt & SSL_OPT_R)

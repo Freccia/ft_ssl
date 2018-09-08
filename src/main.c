@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 17:37:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 18:29:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static const t_ssl_cypher	cypher_md5 =
 	"MD5",
 	MD5_DIGEST_SIZE,
 	md5_file,
-	md5
+	md5_data
 };
 
 static const char			*g_ft_ssl_usage =

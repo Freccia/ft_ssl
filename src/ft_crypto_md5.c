@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 17:48:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/08 18:30:25 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #ifdef DEBUG
 #include <stdio.h>
 #endif
-#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 static unsigned char PADDING[64] = {
   0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -67,37 +69,29 @@ static void encode( uint8_t *output, uint32_t *input, unsigned int len )
 	}
 }
 
-int		md5_file (const char *filename)
+int		md5_file(const char *filename, uint32_t *digest)
 {
-	FILE			*file;
-	t_md5			context;
+	t_md5			ctx;
+	int				fd;
 	int				len;
 	unsigned char	buffer[1024];
-	uint32_t		digest[MD5_DIGEST_SIZE];
 
-	if ((file = fopen (filename, "rb")) == NULL)
+	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
-		printf ("%s can't be opened\n", filename);
+		ft_printf("%s can't be opened\n", filename);
 		return (EXIT_FAILURE);
 	}
-	else {
-		md5_init (&context);
-		while ((len = fread (buffer, 1, 1024, file)))
-		{
-			md5_update (&context, buffer, len);
-		}
-		md5_final (digest, &context);
-
-		fclose (file);
-
-		printf ("MD5 (%s) = ", filename);
-		printf("%x%x%x%x\n", digest[0], digest[1], digest[2], digest[3]);
-		printf ("\n");
-		return (EXIT_SUCCESS);
+	md5_init(&ctx);
+	while ((len = read(fd, buffer, 1024)))
+	{
+		md5_update(&ctx, buffer, len);
 	}
+	md5_final(digest, &ctx);
+	close(fd);
+	return (EXIT_SUCCESS);
 }
 
-void	md5(const uint8_t *msg, uint32_t len, uint32_t *dig)
+void	md5_data(const uint8_t *msg, uint32_t len, uint32_t *dig)
 {
 	t_md5		ctx;
 	uint32_t	parsed_len;
@@ -204,7 +198,9 @@ void			md5_final(uint32_t digest[MD5_DIGEST_SIZE], t_md5 *ctx)
 	p[14] = (ctx->regs[MD5_D] & 0x0000ff00) >> 8;
 	p[15] = (ctx->regs[MD5_D] & 0x000000ff);
 
+#ifdef DEBUG
 	ft_printf("%x%x%x%x\n", digest[0], digest[1], digest[2], digest[3]);
+#endif
 	/* Security: Zeroize sensitive information */
 	ft_bzero(ctx, sizeof(t_md5));
 }

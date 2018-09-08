@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 19:07:39 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/07 18:52:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/07 19:26:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,40 @@ static void	ft_ssl_string(const t_ssl_cypher *cypher, char *msg, int opt)
 			cypher->cy_name, msg, dig[0], dig[1], dig[2], dig[3]);
 }
 
+static int	ft_ssl_files(int ac, char **av, t_ssl_cypher *cypher, int opt)
+{
+	int			i;
+	int			fd;
+	int			fail;
+	char		*msg;
+	int64_t		len;
+	uint32_t	dig[cypher->digest_size];
+
+	len = 0;
+	fail = 0;
+	i = g_optind;
+	while (i < ac && av[i])
+	{
+		if ((fd = open(av[i++], O_RDONLY)) < 0)
+		{
+			++fail;
+			continue ;
+		}
+		msg = ft_ssl_readin(fd);
+		if (msg && (len = ft_ssl_strlen(msg)) > UINT32_MAX)
+			ft_exit(EXIT_FAILURE, g_ssl_longerr, cypher->name);
+		cypher->ft_cypher((uint8_t*)msg, (uint32_t)len, dig);
+		if (opt & SSL_OPT_Q)
+			ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
+		else if (opt & SSL_OPT_R)
+			ft_printf("%x%x%x%x %s\n", dig[0], dig[1], dig[2], dig[3], av[i]);
+		else
+			ft_printf("%s (%s) = %x%x%x%x\n",
+				cypher->cy_name, av[1], dig[0], dig[1], dig[2], dig[3]);
+	}
+	return (fail);
+}
+
 /*
 ** optind starts at zero to match the current option/argument
 ** ac == 1 as we must parse only one argument
@@ -102,14 +136,18 @@ static char	*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
 */
 int			ft_ssl(int ac, char **av, t_ssl_cypher *cypher)
 {
-	int64_t			opt;
+	int			ret;
+	int64_t		opt;
 
 	opt = 0;
+	ret = 0;
 	if (ac < 1)
 		return (EXIT_FAILURE);
 	ft_ssl_getopt(ac, av, cypher, &opt);
-	if (!(opt & SSL_OPT_S) &&
+	if (av[g_optind])
+		ret = ft_ssl_files(ac, av, cypher, opt);
+	else if (!(opt & SSL_OPT_S) &&
 			(g_optind == 1 || (opt & SSL_OPT_R) || (opt & SSL_OPT_Q)))
 		ft_ssl_filter(cypher, opt);
-	return (EXIT_SUCCESS);
+	return (ret);
 }

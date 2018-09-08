@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/07 18:19:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/07 19:51:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ void	md5(const uint8_t *msg, uint32_t len, uint32_t *digest)
 		++newlen;
 	newlen /= 8;
 	data = malloc(newlen + 64);
-	ft_memset(data, '\0', newlen);
+	ft_memset(data, '\0', newlen + 64);
 	ft_memcpy(data, msg, len);
 	data[len] = 0x80; /* write 0x10000000 */
 	bits = len * 8;
@@ -220,8 +220,8 @@ void	md5(const uint8_t *msg, uint32_t len, uint32_t *digest)
 	while (offset < newlen)
 	{
 		md5_transform(&ctx, p);
-		p = p + offset;
 		offset += 512 / 8; /* 64 */
+		p = data + offset;
 	}
 
 	p = (uint8_t*)digest_out;

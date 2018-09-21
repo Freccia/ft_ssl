@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 20:02:58 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/18 21:04:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/21 10:50:36 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,8 @@ static const char	*g_ssl_longerr =
 };
 
 /*
-static void	ft_ssl_filter(const t_ssl_cypher *cypher, int opt)
-{
-	void		*ctx;
-	char		*msg;
-	int64_t		len;
-	uint32_t	dig[cypher->digest_size];
-
-	len = 0;
-	if ((ctx = malloc(cypher->ctx_size)) == NULL)
-		ft_exit(EXIT_FAILURE, FAIL_MALLOC);
-	cypher->cy_init(&ctx);
-	while ((len = read(STDIN_FILENO, buffer, 1024)))
-	{
-		cypher->cy_update(&ctx, buffer, len);
-	}
-	cypher->cy_final(&ctx, dig);
-	close(fd);
-	if (opt & SSL_OPT_Q)
-		ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
-	else
-		ft_printf("%s%x%x%x%x\n", msg, dig[0], dig[1], dig[2], dig[3]);
-}
+** Call SSLCypher string digest function, print output.
 */
-
 static void	ft_ssl_string(const t_ssl_cypher *cypher, char *msg, int opt)
 {
 	int64_t		len;
@@ -74,6 +52,9 @@ static void	ft_ssl_string(const t_ssl_cypher *cypher, char *msg, int opt)
 			cypher->cy_name, msg, dig[0], dig[1], dig[2], dig[3]);
 }
 
+/*
+** Loop through arguments files, call SSLCypher file digest function.
+*/
 static int	ft_ssl_files(int ac, char **av, t_ssl_cypher *cypher, int opt)
 {
 	int			i;
@@ -98,8 +79,8 @@ static int	ft_ssl_files(int ac, char **av, t_ssl_cypher *cypher, int opt)
 }
 
 /*
-** optind starts at zero to match the current option/argument
-** ac == 1 as we must parse only one argument
+** Get options for SSLCypher, call SSLCypher digest functions.
+** (optind starts at zero to match the current option/argument)
 */
 static char	*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
 	int64_t *opt)
@@ -126,6 +107,7 @@ static char	*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
 }
 
 /*
+** SSLCypher Body, chooses which function tu use to digest message
 ** ac -> arguments lenght
 ** av -> arguments pointers
 ** cypher -> structure pointer to the cypher algorithm

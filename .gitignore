@@ -2,7 +2,8 @@
 *.d
 
 ft_ssl
-ft_ssl.*
+ft_ssl.dev
+#ft_ssl.*
 
 # Object files
 *.o

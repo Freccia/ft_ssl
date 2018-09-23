@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:43:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 12:37:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 13:38:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void		sha256_transform(t_sha256 *ctx, const uint8_t data[])
 		t.c = t.b;
 		t.b = t.a;
 		t.a = t.t1 + t.t2;
+		++i;
 	}
 	ctx->regs[0] += t.a;
 	ctx->regs[1] += t.b;
@@ -84,7 +85,7 @@ void		sha256_transform(t_sha256 *ctx, const uint8_t data[])
 	ctx->regs[7] += t.h;
 }
 
-void		sha256_final(t_sha256 *ctx, uint8_t hash[])
+void		sha256_final(t_sha256 *ctx, uint32_t hash[])
 {
 	uint32_t i;
 	uint32_t restlen;
@@ -112,6 +113,7 @@ void		sha256_final(t_sha256 *ctx, uint8_t hash[])
 	sha256_transform(ctx, ctx->data);
 // Since this implementation uses little endian byte ordering and SHA uses big endian,
 // reverse all the bytes when copying the final regs to the output hash.
+	/*
 	i = 0;
 	while (i < 4)
 	{
@@ -123,15 +125,27 @@ void		sha256_final(t_sha256 *ctx, uint8_t hash[])
 		hash[i + 20] = (ctx->regs[5] >> (24 - i * 8)) & 0x000000ff;
 		hash[i + 24] = (ctx->regs[6] >> (24 - i * 8)) & 0x000000ff;
 		hash[i + 28] = (ctx->regs[7] >> (24 - i * 8)) & 0x000000ff;
+		++i;
 	}
+	*/
+	hash[0] = ctx->regs[0];
+	hash[1] = ctx->regs[1];
+	hash[2] = ctx->regs[2];
+	hash[3] = ctx->regs[3];
+	hash[4] = ctx->regs[4];
+	hash[5] = ctx->regs[5];
+	hash[6] = ctx->regs[6];
+	hash[7] = ctx->regs[7];
+	ft_printf("%x%x%x%x%x%x%x%x\n", hash[0], hash[1], hash[2], hash[3], hash[4],
+		hash[5], hash[6], hash[7]);
 }
 
 void		sha256_update(t_sha256 *ctx, const uint8_t data[], uint32_t len)
 {
 	uint32_t i;
 
-	i = -1;
-	while (++i < len)
+	i = 0;
+	while (i < len)
 	{
 		ctx->data[ctx->datalen] = data[i];
 		++ctx->datalen;
@@ -141,6 +155,7 @@ void		sha256_update(t_sha256 *ctx, const uint8_t data[], uint32_t len)
 			ctx->bitlen += 512;
 			ctx->datalen = 0;
 		}
+		++i;
 	}
 }
 

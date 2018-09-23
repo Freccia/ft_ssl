@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:48:36 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 20:32:09 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 16:05:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,23 @@ typedef struct		s_md5_ctx {
 }					t_md5;
 
 /*
-** MD5 FUNCTIONS
-** (ctx = md5_context; dig = digest; data = data to cypher)
+** MD5 CORE
 */
 void				md5_init(t_md5 *ctx);
-//void				md5_pad(t_md5 *ctx);
 void				md5_update(t_md5 *ctx, const uint8_t *data, uint32_t len);
-void				md5_final(t_md5 *ctx, uint32_t digest[MD5_DIGEST_SIZE]);
-int					md5_file (const char *filename, uint32_t *dig);
-void				md5_data(const uint8_t *msg, uint32_t len, uint32_t *dig);
+void				md5_final(t_md5 *ctx, uint32_t digest[]);
+
+/*
+** SHA256 WRAPPERS
+*/
+void				ssl_md5_init(void *ctx);
+void				ssl_md5_update(void *ctx, const uint8_t *dat, uint32_t len);
+void				ssl_md5_final(void *ctx, uint32_t *digest);
+
+int					md5_file (const char *filename, uint32_t digest[]);
+void				md5_string(const char *msg, int opt);
+void				md5_data(const uint8_t *msg, uint32_t len, uint32_t dig[]);
 void				md5_filter(int quiet);
+int					md5_files(int ac, char **av, int opt);
 
 #endif

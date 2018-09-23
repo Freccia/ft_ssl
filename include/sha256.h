@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:23:35 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 12:38:07 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 16:11:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,27 @@ typedef struct		s_transform_ctx {
 
 }					t_transform_ctx;
 
-void		sha256_init(t_sha256 *ctx);
-void		sha256_update(t_sha256 *ctx, const uint8_t data[], uint32_t len);
-void		sha256_transform(t_sha256 *ctx, const uint8_t data[]);
-void		sha256_final(t_sha256 *ctx, uint8_t hash[]);
+/*
+** SHA256 CORE
+*/
+void				sha256_init(t_sha256 *ctx);
+void				sha256_update(t_sha256 *ctx, const uint8_t data[],
+						uint32_t len);
+void				sha256_transform(t_sha256 *ctx, const uint8_t data[]);
+void				sha256_final(t_sha256 *ctx, uint32_t hash[]);
+
+/*
+** SHA256 WRAPPERS
+*/
+void				ssl_sha256_init(void *ctx);
+void				ssl_sha256_update(void *ctx, const uint8_t data[], uint32_t len);
+void				ssl_sha256_final(void *ctx, uint32_t hash[]);
+
+int					sha256_file (const char *filename, uint32_t digest[]);
+void				sha256_string(const char *msg, int opt);
+void				sha256_data(const uint8_t *msg, uint32_t len, uint32_t d[]);
+void				sha256_filter(int quiet);
+int					sha256_files(int ac, char **av, int opt);
+
 
 #endif

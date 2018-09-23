@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:23:35 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/21 11:39:49 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 12:38:07 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef uint32_t	u32;
 
 # define SHA256_WORD			sizeof(uint32_t) * 8 /* bits in a word */
 # define SHA256_BUFFER_SIZE		64
-# define SHA256_DIGEST_SIZE		8  /* 4*8 = 256 bits */
+# define SHA256_DIGEST_SIZE		8  /* 32*8 = 256 bits */
 
 /*
 ** SHA256 Basic Functions
@@ -31,22 +31,23 @@ typedef uint32_t	u32;
 **			ROTR^n(x) = ROTL^(w-n)(x)
 **
 */
-# define SHR(n, x)			(x >> n)
-# define ROTR(n, x)			(x >> n) || (x << (SHA256_WORD - n))
-# define ROTL(n, x)			(x << n) || (x >> (SHA256_WORD - n))
+# define SHR(x, n)			((x) >> (n))
+# define ROTL(x, n)			(((x) << (n)) | ((x) >> (32 - (n))))
+# define ROTR(x, n)			(((x) >> (n)) | ((x) << (32 - (n))))
 
-# define CH(x, y, z)		(x && y) ^ (~x && z)
-# define MAJ(x, y, z)		(x && y) ^ (x && z) ^ (y && z)
-# define BSIG0(x)			ROTR(28, x) ^ ROTR(34, x) ^ ROTR(39, x)
-# define BSIG1(x)			ROTR(14, x) ^ ROTR(18, x) ^ ROTR(41, x)
-# define SSIG0(x)			ROTR( 1, x) ^ ROTR( 8, x) ^ SHR(7, x)
-# define SSIG1(x)			ROTR(19, x) ^ ROTR(61, x) ^ SHR(6, x)
+# define CH(x, y, z)		(((x) & (y)) ^ (~(x) & (z)))
+# define MAJ(x, y, z)		(((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
+# define BSIG0(x)				(ROTR(x,  2) ^ ROTR(x, 13) ^ ROTR(x, 22))
+# define BSIG1(x)				(ROTR(x,  6) ^ ROTR(x, 11) ^ ROTR(x, 25))
+# define SSIG0(x)			(ROTR(x,  7) ^ ROTR(x, 18) ^ ((x) >>  3))
+# define SSIG1(x)			(ROTR(x, 17) ^ ROTR(x, 19) ^ ((x) >> 10))
+
 
 typedef struct		s_sha256_ctx {
-	uint32_t		bitlen;
+	uint64_t		bitlen;
 	uint32_t		datalen;
 	uint32_t		regs[8];
-	uint8_t			buff[64];
+	uint8_t			data[64];
 }					t_sha256;
 
 typedef struct		s_transform_ctx {
@@ -63,5 +64,10 @@ typedef struct		s_transform_ctx {
 	uint32_t		m[64];
 
 }					t_transform_ctx;
+
+void		sha256_init(t_sha256 *ctx);
+void		sha256_update(t_sha256 *ctx, const uint8_t data[], uint32_t len);
+void		sha256_transform(t_sha256 *ctx, const uint8_t data[]);
+void		sha256_final(t_sha256 *ctx, uint8_t hash[]);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:20:55 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/21 10:42:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 12:17:07 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void		ssl_sha256_update(void *ctx, const uint8_t *data, uint32_t len)
 	sha256_update((t_sha256*)ctx, data, len);
 }
 
-void		ssl_sha256_final(void *ctx, uint32_t *digest)
+void		ssl_sha256_final(void *ctx, uint32_t *hash)
 {
-	sha256_final((t_sha256*)ctx, digest);
+	sha256_final((t_sha256*)ctx, (uint8_t*)hash);
 }

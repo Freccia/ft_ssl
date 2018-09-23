@@ -6,11 +6,12 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/21 10:18:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 12:16:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "md5.h"
+#include "sha256.h"
 #include "ft_ssl.h"
 #include "get_next_line.h"
 #include "error.h"
@@ -21,12 +22,15 @@ static const t_ssl_cypher	cypher_md5 =
 	"md5",
 	"MD5",
 	MD5_DIGEST_SIZE,
+	sizeof(t_md5),
 	ssl_md5_init,
 	ssl_md5_update,
 	ssl_md5_final,
+	/*
 	md5_filter,
 	md5_file,
 	md5_data
+	*/
 };
 
 static const t_ssl_cypher	cypher_sha256 =
@@ -34,12 +38,15 @@ static const t_ssl_cypher	cypher_sha256 =
 	"sha256",
 	"SHA256",
 	SHA256_DIGEST_SIZE,
+	sizeof(t_sha256),
 	ssl_sha256_init,
 	ssl_sha256_update,
 	ssl_sha256_final,
+	/*
 	sha256_filter,
 	sha256_file,
 	sha256_data
+	*/
 };
 
 
@@ -98,8 +105,8 @@ static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
 	ctx->cypher[0] = cypher_md5;
-	ctx->cypher[2] = cypher_sha256;
-//	ctx->cypher[1] = cy_sha1;
+	ctx->cypher[1] = cypher_sha256;
+//	ctx->cypher[2] = cypher_sha512;
 }
 
 static int			ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)

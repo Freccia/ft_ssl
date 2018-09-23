@@ -6,13 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:43:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/21 11:42:50 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 12:37:18 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sha256.h"
 
-const uint32_t k = {
+const uint32_t k[64] = {
 	0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
 	0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
 	0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
@@ -29,9 +29,9 @@ const uint32_t k = {
 	0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
 	0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
 	0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
-}
+};
 
-void		sha256_transform(t_sha56 *ctx, const uint8_t data[])
+void		sha256_transform(t_sha256 *ctx, const uint8_t data[])
 {
 	t_transform_ctx t;
 	uint32_t i;
@@ -41,54 +41,114 @@ void		sha256_transform(t_sha56 *ctx, const uint8_t data[])
 	j = 0;
 	while (i < 16)
 	{
-		 t->m[i] = (data[j] << 24) | (data[j + 1] << 16) |
+		 t.m[i] = (data[j] << 24) | (data[j + 1] << 16) |
 						(data[j + 2] << 8) | (data[j + 3]);
 		++i;
 		j += 4;
 	}
 	while (i < 64)
 	{
-		t->m[i] = SSIG1(t->m[i - 2]) + t->m[i - 7]
-					+ SSIG0(t->m[i - 15]) + t->m[i - 16];
+		t.m[i] = SSIG1(t.m[i - 2]) + t.m[i - 7]
+					+ SSIG0(t.m[i - 15]) + t.m[i - 16];
 		++i;
 	}
-	t->a = ctx->regs[0];
-	t->b = ctx->regs[1];
-	t->c = ctx->regs[2];
-	t->d = ctx->regs[3];
-	t->e = ctx->regs[4];
-	t->f = ctx->regs[5];
-	t->g = ctx->regs[6];
-	t->h = ctx->regs[7];
+	t.a = ctx->regs[0];
+	t.b = ctx->regs[1];
+	t.c = ctx->regs[2];
+	t.d = ctx->regs[3];
+	t.e = ctx->regs[4];
+	t.f = ctx->regs[5];
+	t.g = ctx->regs[6];
+	t.h = ctx->regs[7];
 	i = 0;
 	while (i < 64)
 	{
-		t->t1 = t->h + EP1(t->e) + CH(t->e, t->f, t->g) + t->k[i] + t->m[i];
-		t->t2 = EP0(t->a) + MAJ(t->a, t->b, t->c);
-		t->h = t->g;
-		t->g = t->f;
-		t->f = t->e;
-		t->e = t->d + t->t1;
-		t->d = t->c;
-		t->c = t->b;
-		t->b = t->a;
-		t->a = t->t1 + t->t2;
+		t.t1 = t.h + BSIG1(t.e) + CH(t.e, t.f, t.g) + k[i] + t.m[i];
+		t.t2 = BSIG0(t.a) + MAJ(t.a, t.b, t.c);
+		t.h = t.g;
+		t.g = t.f;
+		t.f = t.e;
+		t.e = t.d + t.t1;
+		t.d = t.c;
+		t.c = t.b;
+		t.b = t.a;
+		t.a = t.t1 + t.t2;
 	}
-	ctx->regs[0] += t->a;
-	ctx->regs[1] += t->b;
-	ctx->regs[2] += t->c;
-	ctx->regs[3] += t->d;
-	ctx->regs[4] += t->e;
-	ctx->regs[5] += t->f;
-	ctx->regs[6] += t->g;
-	ctx->regs[7] += t->h;
+	ctx->regs[0] += t.a;
+	ctx->regs[1] += t.b;
+	ctx->regs[2] += t.c;
+	ctx->regs[3] += t.d;
+	ctx->regs[4] += t.e;
+	ctx->regs[5] += t.f;
+	ctx->regs[6] += t.g;
+	ctx->regs[7] += t.h;
+}
 
+void		sha256_final(t_sha256 *ctx, uint8_t hash[])
+{
+	uint32_t i;
+	uint32_t restlen;
+
+	i = ctx->datalen;
+	ctx->data[i++] = 0x80;
+	restlen = (ctx->datalen < 56) ? 56 : 64;
+	while (i < restlen)
+		ctx->data[i++] = 0x00;
+	if (restlen == 64)
+	{
+		sha256_transform(ctx, ctx->data);
+		ft_memset(ctx->data, 0, 56);
+	}
+// Append to the padding the total message's length in bits and transform.
+	ctx->bitlen += ctx->datalen * 8;
+	ctx->data[63] = ctx->bitlen;
+	ctx->data[62] = ctx->bitlen >> 8;
+	ctx->data[61] = ctx->bitlen >> 16;
+	ctx->data[60] = ctx->bitlen >> 24;
+	ctx->data[59] = ctx->bitlen >> 32;
+	ctx->data[58] = ctx->bitlen >> 40;
+	ctx->data[57] = ctx->bitlen >> 48;
+	ctx->data[56] = ctx->bitlen >> 56;
+	sha256_transform(ctx, ctx->data);
+// Since this implementation uses little endian byte ordering and SHA uses big endian,
+// reverse all the bytes when copying the final regs to the output hash.
+	i = 0;
+	while (i < 4)
+	{
+		hash[i]      = (ctx->regs[0] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 4]  = (ctx->regs[1] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 8]  = (ctx->regs[2] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 12] = (ctx->regs[3] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 16] = (ctx->regs[4] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 20] = (ctx->regs[5] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 24] = (ctx->regs[6] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 28] = (ctx->regs[7] >> (24 - i * 8)) & 0x000000ff;
+	}
+}
+
+void		sha256_update(t_sha256 *ctx, const uint8_t data[], uint32_t len)
+{
+	uint32_t i;
+
+	i = -1;
+	while (++i < len)
+	{
+		ctx->data[ctx->datalen] = data[i];
+		++ctx->datalen;
+		if (ctx->datalen == 64)
+		{
+			sha256_transform(ctx, ctx->data);
+			ctx->bitlen += 512;
+			ctx->datalen = 0;
+		}
+	}
 }
 
 void		sha256_init(t_sha256 *ctx)
 {
 	ctx->bitlen = 0;
 	ctx->datalen = 0;
+	ft_memset(ctx->data, 0, sizeof(ctx->data));
 	ctx->regs[0] = 0x6a09e667;
 	ctx->regs[1] = 0xbb67ae85;
 	ctx->regs[2] = 0x3c6ef372;
@@ -98,5 +158,3 @@ void		sha256_init(t_sha256 *ctx)
 	ctx->regs[6] = 0x1f83d9ab;
 	ctx->regs[7] = 0x5be0cd19;
 }
-
-

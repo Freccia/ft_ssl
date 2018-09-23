@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/08 20:36:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/09/23 12:05:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ static void encode( uint8_t *output, uint32_t *input, unsigned int len )
 	}
 }
 
+/*
 int		md5_file(const char *filename, uint32_t *digest)
 {
 	t_md5			ctx;
@@ -91,21 +92,6 @@ int		md5_file(const char *filename, uint32_t *digest)
 	return (EXIT_SUCCESS);
 }
 
-void	md5_data(const uint8_t *msg, uint32_t len, uint32_t *digest)
-{
-	t_md5		ctx;
-	uint32_t	parsed_len;
-
-	md5_init(&ctx);
-	parsed_len = 0;
-	(void)len;
-	//while (parsed_len < len) {
-		md5_update(&ctx, msg + parsed_len, len);
-	//	parsed_len += 64;
-	//}
-	md5_final(&ctx, digest);
-}
-
 void	md5_filter(int quiet)
 {
 	t_md5		ctx;
@@ -124,6 +110,22 @@ void	md5_filter(int quiet)
 	}
 	md5_final(&ctx, dig);
 }
+
+void	md5_data(const uint8_t *msg, uint32_t len, uint32_t *digest)
+{
+	t_md5		ctx;
+	uint32_t	parsed_len;
+
+	md5_init(&ctx);
+	parsed_len = 0;
+	(void)len;
+	//while (parsed_len < len) {
+		md5_update(&ctx, msg + parsed_len, len);
+	//	parsed_len += 64;
+	//}
+	md5_final(&ctx, digest);
+}
+*/
 
 void			md5_init(t_md5 *ctx)
 {

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 20:03:04 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 16:09:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 14:51:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+#include <stdio.h>
 
 static const char	*g_md5_longerr =
 {
@@ -56,7 +58,6 @@ int			md5_file(const char *filename, uint32_t digest[])
 	md5_init(&ctx);
 	while ((len = read(fd, buffer, sizeof(buffer))))
 	{
-		buffer[len] = 0;
 		md5_update(&ctx, buffer, len);
 	}
 	md5_final(&ctx, digest);
@@ -82,7 +83,7 @@ void		md5_filter(int quiet)
 		md5_update(&ctx, buffer, len);
 	}
 	md5_final(&ctx, digest);
-	ft_printf("%x%x%x%x\n", digest[0], digest[1], digest[2], digest[3]);
+	ft_printf("%08x%08x%08x%08x\n", digest[0], digest[1], digest[2], digest[3]);
 	ft_memset(&ctx, 0, sizeof(ctx));
 }
 
@@ -109,11 +110,12 @@ void		md5_string(const char *msg, int opt)
 		ft_exit(EXIT_FAILURE, g_md5_longerr);
 	md5_data((uint8_t*)msg, (uint32_t)len, dig);
 	if (opt & SSL_OPT_Q)
-		ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
+		ft_printf("%08x%08x%08x%08x\n", dig[0], dig[1], dig[2], dig[3]);
 	else if (opt & SSL_OPT_R)
-		ft_printf("%x%x%x%x \"%s\"\n", dig[0], dig[1], dig[2], dig[3], msg);
+		ft_printf("%08x%08x%08x%08x \"%s\"\n", dig[0], dig[1], dig[2], dig[3],
+				msg);
 	else
-		ft_printf("md5 (\"%s\") = %x%x%x%x\n",
+		ft_printf("MD5(\"%s\") = %08x%08x%08x%08x\n",
 			msg, dig[0], dig[1], dig[2], dig[3]);
 }
 
@@ -132,11 +134,12 @@ int			md5_files(int ac, char **av, int opt)
 	{
 		fail = md5_file(av[i], dig);
 		if (opt & SSL_OPT_Q)
-			ft_printf("%x%x%x%x\n", dig[0], dig[1], dig[2], dig[3]);
+			ft_printf("%08x%08x%08x%08x\n", dig[0], dig[1], dig[2], dig[3]);
 		else if (opt & SSL_OPT_R)
-			ft_printf("%x%x%x%x %s\n", dig[0], dig[1], dig[2], dig[3], av[i]);
+			ft_printf("%08x%08x%08x%08x %s\n", dig[0], dig[1], dig[2], dig[3],
+					av[i]);
 		else
-			ft_printf("md5 (%s) = %x%x%x%x\n",
+			ft_printf("MD5(%s) = %08x%08x%08x%08x\n",
 				av[1], dig[0], dig[1], dig[2], dig[3]);
 		i++;
 		ft_memset(dig, 0, sizeof(dig));

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:43:01 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 13:38:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 15:37:44 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,6 @@ void		sha256_final(t_sha256 *ctx, uint32_t hash[])
 	hash[5] = ctx->regs[5];
 	hash[6] = ctx->regs[6];
 	hash[7] = ctx->regs[7];
-	ft_printf("%x%x%x%x%x%x%x%x\n", hash[0], hash[1], hash[2], hash[3], hash[4],
-		hash[5], hash[6], hash[7]);
 }
 
 void		sha256_update(t_sha256 *ctx, const uint8_t data[], uint32_t len)

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:20:55 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 15:37:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 18:06:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,16 +134,19 @@ int			sha256_files(int ac, char **av, int opt)
 	while (i < ac && av[i])
 	{
 		fail = sha256_file(av[i], dig);
-		if (opt & SSL_OPT_Q)
-			ft_printf("%08x%08x%08x%08x%08x%08x%08x%08x\n", dig[0], dig[1],
-					dig[2], dig[3], dig[4], dig[5], dig[6], dig[7]);
-		else if (opt & SSL_OPT_R)
-			ft_printf("%08x%08x%08x%08x%08x%08x%08x%08x %s\n", dig[0], dig[1],
-					dig[2], dig[3], dig[4], dig[5], dig[6], dig[7], av[i]);
-		else
-			ft_printf("sha256 (%s) = %08x%08x%08x%08x%08x%08x%08x%08x\n",
-				av[1], dig[0], dig[1], dig[2], dig[3], dig[4], dig[5], dig[6],
-					dig[7]);
+		if (fail == 0)
+		{
+			if (opt & SSL_OPT_Q)
+				ft_printf("%08x%08x%08x%08x%08x%08x%08x%08x\n", dig[0], dig[1],
+						dig[2], dig[3], dig[4], dig[5], dig[6], dig[7]);
+			else if (opt & SSL_OPT_R)
+				ft_printf("%08x%08x%08x%08x%08x%08x%08x%08x %s\n", dig[0], dig[1],
+						dig[2], dig[3], dig[4], dig[5], dig[6], dig[7], av[i]);
+			else
+				ft_printf("sha256 (%s) = %08x%08x%08x%08x%08x%08x%08x%08x\n",
+					av[1], dig[0], dig[1], dig[2], dig[3], dig[4], dig[5], dig[6],
+						dig[7]);
+		}
 		i++;
 		ft_memset(&dig, 0, sizeof(dig));
 	}

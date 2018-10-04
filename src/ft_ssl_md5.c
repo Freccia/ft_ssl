@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/08 20:03:04 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 14:51:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 18:06:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			md5_file(const char *filename, uint32_t digest[])
 	len = 0;
 	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
-		ft_printf("%s can't be opened\n", filename);
+		ft_printf("md5: %s: can't be opened\n", filename);
 		return (EXIT_FAILURE);
 	}
 	md5_init(&ctx);
@@ -133,14 +133,17 @@ int			md5_files(int ac, char **av, int opt)
 	while (i < ac && av[i])
 	{
 		fail = md5_file(av[i], dig);
-		if (opt & SSL_OPT_Q)
-			ft_printf("%08x%08x%08x%08x\n", dig[0], dig[1], dig[2], dig[3]);
-		else if (opt & SSL_OPT_R)
-			ft_printf("%08x%08x%08x%08x %s\n", dig[0], dig[1], dig[2], dig[3],
-					av[i]);
-		else
-			ft_printf("MD5(%s) = %08x%08x%08x%08x\n",
-				av[1], dig[0], dig[1], dig[2], dig[3]);
+		if (fail == 0)
+		{
+			if (opt & SSL_OPT_Q)
+				ft_printf("%08x%08x%08x%08x\n", dig[0], dig[1], dig[2], dig[3]);
+			else if (opt & SSL_OPT_R)
+				ft_printf("%08x%08x%08x%08x %s\n", dig[0], dig[1], dig[2], dig[3],
+						av[i]);
+			else
+				ft_printf("MD5(%s) = %08x%08x%08x%08x\n",
+					av[1], dig[0], dig[1], dig[2], dig[3]);
+		}
 		i++;
 		ft_memset(dig, 0, sizeof(dig));
 	}

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 16:10:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 18:05:36 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ int				main(int ac, char **av)
 		return ft_exit(EXIT_FAILURE, g_ft_ssl_usage, av[0]);
 	g_optind = 1;
 	ft_ssl_init_ctx(&ctx);
-	ft_ssl_getcypher(ac, av, &ctx);
-	return (EXIT_SUCCESS);
+	return (ft_ssl_getcypher(ac, av, &ctx));
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 12:05:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 18:04:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,64 +68,6 @@ static void encode( uint8_t *output, uint32_t *input, unsigned int len )
 		output[j+3] = (uint8_t)((input[i] >> 24) & 0xff);
 	}
 }
-
-/*
-int		md5_file(const char *filename, uint32_t *digest)
-{
-	t_md5			ctx;
-	int				fd;
-	int				len;
-	unsigned char	buffer[1024];
-
-	if ((fd = open(filename, O_RDONLY)) < 0)
-	{
-		ft_printf("%s can't be opened\n", filename);
-		return (EXIT_FAILURE);
-	}
-	md5_init(&ctx);
-	while ((len = read(fd, buffer, 1024)))
-	{
-		md5_update(&ctx, buffer, len);
-	}
-	md5_final(&ctx, digest);
-	close(fd);
-	return (EXIT_SUCCESS);
-}
-
-void	md5_filter(int quiet)
-{
-	t_md5		ctx;
-	int64_t		len;
-	uint32_t	dig[MD5_DIGEST_SIZE];
-	uint8_t		buffer[1024];
-
-	len = 0;
-	md5_init(&ctx);
-	while ((len = read(STDIN_FILENO, buffer, 1024)))
-	{
-		buffer[len] = 0;
-		if (!quiet)
-			ft_printf("%s", buffer);
-		md5_update(&ctx, buffer, len);
-	}
-	md5_final(&ctx, dig);
-}
-
-void	md5_data(const uint8_t *msg, uint32_t len, uint32_t *digest)
-{
-	t_md5		ctx;
-	uint32_t	parsed_len;
-
-	md5_init(&ctx);
-	parsed_len = 0;
-	(void)len;
-	//while (parsed_len < len) {
-		md5_update(&ctx, msg + parsed_len, len);
-	//	parsed_len += 64;
-	//}
-	md5_final(&ctx, digest);
-}
-*/
 
 void			md5_init(t_md5 *ctx)
 {
@@ -370,6 +312,5 @@ static void		md5_transform(uint32_t regs[4], const uint8_t block[64])
 	regs[MD5_B] += b;
 	regs[MD5_C] += c;
 	regs[MD5_D] += d;
-
 	ft_memset(&x, 0, sizeof(x));
 }

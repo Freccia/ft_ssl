@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <>                                 +#+  +:+       +#+        */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/20 17:21:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 16:10:04 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/10/04 17:15:19 by lfabbro           #+#    #+#             */
+/*   Updated: 2018/10/04 17:16:49 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "error.h"
 #include <unistd.h>
 
-static const t_ssl_cypher	cypher_md5 =
+static const t_ssl_cypher	g_cypher_md5 =
 {
 	"md5",
 	"MD5",
@@ -33,7 +33,7 @@ static const t_ssl_cypher	cypher_md5 =
 	md5_files
 };
 
-static const t_ssl_cypher	cypher_sha256 =
+static const t_ssl_cypher	g_cypher_sha256 =
 {
 	"sha256",
 	"SHA256",
@@ -48,7 +48,6 @@ static const t_ssl_cypher	cypher_sha256 =
 	sha256_data,
 	sha256_files
 };
-
 
 static const char	*g_ft_ssl_usage =
 {
@@ -80,9 +79,8 @@ uint64_t		ft_ssl_strlen(const char *msg)
 static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
-	ctx->cypher[0] = cypher_md5;
-	ctx->cypher[1] = cypher_sha256;
-//	ctx->cypher[2] = cypher_sha512;
+	ctx->cypher[0] = g_cypher_md5;
+	ctx->cypher[1] = g_cypher_sha256;
 }
 
 static int		ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
@@ -104,7 +102,7 @@ int				main(int ac, char **av)
 	t_ssl_ctx	ctx;
 
 	if (ac < 2)
-		return ft_exit(EXIT_FAILURE, g_ft_ssl_usage, av[0]);
+		return (ft_exit(EXIT_FAILURE, g_ft_ssl_usage, av[0]));
 	g_optind = 1;
 	ft_ssl_init_ctx(&ctx);
 	ft_ssl_getcypher(ac, av, &ctx);

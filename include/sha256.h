@@ -6,30 +6,33 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:23:35 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 16:11:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 17:20:27 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SHA256
-# define SHA256
+#ifndef SHA256_H
+# define SHA256_H
 
 # include "libft.h"
 # include <stdint.h>
 
-typedef uint32_t	u32;
-
-# define SHA256_WORD			sizeof(uint32_t) * 8 /* bits in a word */
+/*
+** bits in a word
+*/
+# define SHA256_WORD			sizeof(uint32_t) * 8
 # define SHA256_BUFFER_SIZE		64
-# define SHA256_DIGEST_SIZE		8  /* 32*8 = 256 bits */
+
+/*
+** 32*8 = 256 bits
+*/
+# define SHA256_DIGEST_SIZE		8
 
 /*
 ** SHA256 Basic Functions
-**
 ** Note the following equivalence relationships, where w is fixed in each
 ** relationship:
 **			ROTL^n(x) = ROTR^(w-x)(x)
 **			ROTR^n(x) = ROTL^(w-n)(x)
-**
 */
 # define SHR(x, n)			((x) >> (n))
 # define ROTL(x, n)			(((x) << (n)) | ((x) >> (32 - (n))))
@@ -42,8 +45,8 @@ typedef uint32_t	u32;
 # define SSIG0(x)			(ROTR(x,  7) ^ ROTR(x, 18) ^ ((x) >>  3))
 # define SSIG1(x)			(ROTR(x, 17) ^ ROTR(x, 19) ^ ((x) >> 10))
 
-
-typedef struct		s_sha256_ctx {
+typedef struct		s_sha256_ctx
+{
 	uint64_t		bitlen;
 	uint32_t		datalen;
 	uint32_t		regs[8];
@@ -51,6 +54,8 @@ typedef struct		s_sha256_ctx {
 }					t_sha256;
 
 typedef struct		s_transform_ctx {
+	uint32_t		i;
+	uint32_t		j;
 	uint32_t		a;
 	uint32_t		b;
 	uint32_t		c;
@@ -78,7 +83,8 @@ void				sha256_final(t_sha256 *ctx, uint32_t hash[]);
 ** SHA256 WRAPPERS
 */
 void				ssl_sha256_init(void *ctx);
-void				ssl_sha256_update(void *ctx, const uint8_t data[], uint32_t len);
+void				ssl_sha256_update(void *ctx, const uint8_t data[],
+						uint32_t len);
 void				ssl_sha256_final(void *ctx, uint32_t hash[]);
 
 int					sha256_file (const char *filename, uint32_t digest[]);
@@ -87,5 +93,10 @@ void				sha256_data(const uint8_t *msg, uint32_t len, uint32_t d[]);
 void				sha256_filter(int quiet);
 int					sha256_files(int ac, char **av, int opt);
 
+/*
+** F*ING NORME !
+*/
+void				sha256_transform_bis(t_sha256 *ctx, const uint8_t data[],
+						t_transform_ctx *t);
 
 #endif

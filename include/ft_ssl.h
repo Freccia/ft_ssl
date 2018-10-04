@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 16:10:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 17:18:11 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 # define SSL_OPT_S		8
 # define SSL_OPT_END	16
 
-
 typedef struct		s_ssl_cypher
 {
 	char			name[8];
@@ -46,7 +45,7 @@ typedef struct		s_ssl_cypher
 	void			(*cy_string)(const char *msg, int opt);
 	void			(*cy_filter)(int quiet);
 	int				(*cy_file)(const char *filename, uint32_t *digest);
-	void			(*cy_data)(const uint8_t *data, uint32_t len, uint32_t *dig);
+	void			(*cy_data)(const uint8_t *dat, uint32_t len, uint32_t *dig);
 	int				(*cy_files)(int ac, char **av, int opt);
 }					t_ssl_cypher;
 
@@ -65,6 +64,5 @@ uint64_t			ft_ssl_strlen(const char *msg);
 ** FT_SSL FUNCTIONS
 */
 int					ft_ssl(int ac, char **av, t_ssl_cypher *chyphr);
-
 
 #endif

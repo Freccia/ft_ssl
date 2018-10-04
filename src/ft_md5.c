@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 15:27:37 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 17:02:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 17:55:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void			md5_update(t_md5 *ctx, const uint8_t *data, uint32_t datalen)
 	}
 	else
 		i = 0;
-	memcpy((void*)&ctx->buff[idx], (const void*)&data[i], datalen - i);
+	ft_memcpy((void*)&ctx->buff[idx], (const void*)&data[i], datalen - i);
 }
 
 static void		md5_pad(t_md5 *ctx)
@@ -125,5 +125,4 @@ void			md5_final(t_md5 *ctx, uint32_t digest[MD5_DIGEST_SIZE])
 	p[14] = (ctx->regs[MD5_D] & 0x0000ff00) >> 8;
 	p[15] = (ctx->regs[MD5_D] & 0x000000ff);
 	ft_bzero(ctx, sizeof(*ctx));
-	ft_bzero(g_padding, sizeof(g_padding));
 }

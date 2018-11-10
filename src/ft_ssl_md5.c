@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:43:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 17:59:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/05 15:00:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ int			md5_files(int ac, char **av, int opt)
 			if (opt & SSL_OPT_Q)
 				ft_printf("%08x%08x%08x%08x\n", dig[0], dig[1], dig[2], dig[3]);
 			else if (opt & SSL_OPT_R)
-				ft_printf("%08x%08x%08x%08x %s\n", dig[0], dig[1], dig[2], dig[3],
-						av[i]);
+				ft_printf("%08x%08x%08x%08x %s\n", dig[0], dig[1], dig[2],
+						dig[3], av[i]);
 			else
 				ft_printf("MD5 (%s) = %08x%08x%08x%08x\n",
 					av[i], dig[0], dig[1], dig[2], dig[3]);

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:48:36 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 16:05:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/10/04 16:29:41 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 # include <stdint.h>
 
 /*
-** Using 32bits long ints for md5 operations
+** in bytes
 */
-typedef uint32_t	u32;
-
-/* in bytes */
 # define MD5_BUFFER_SIZE	64
-# define MD5_DIGEST_SIZE	4  /* 4*32 = 128 bits*/
+# define MD5_DIGEST_SIZE	4
+
+/*
+** 4*32 = 128 bits
+*/
 
 /*
 ** MD5 Basic Functions
@@ -74,6 +75,10 @@ typedef uint32_t	u32;
 # define MD5_B			1
 # define MD5_C			2
 # define MD5_D			3
+# define A				0
+# define B				1
+# define C				2
+# define D				3
 
 /*
 **	bitcount: bits already parsed (bitcount[1] for overflow)
@@ -92,6 +97,16 @@ typedef struct		s_md5_ctx {
 void				md5_init(t_md5 *ctx);
 void				md5_update(t_md5 *ctx, const uint8_t *data, uint32_t len);
 void				md5_final(t_md5 *ctx, uint32_t digest[]);
+
+/*
+** F*ING NORME !
+*/
+void				md5_transform_round_one(uint32_t *regz, uint32_t x[16]);
+void				md5_transform_round_two(uint32_t *regz, uint32_t x[16]);
+void				md5_transform_round_three(uint32_t *regz, uint32_t x[16]);
+void				md5_transform_round_four(uint32_t *regz, uint32_t x[16]);
+void				encode(uint8_t *out, uint32_t *in, unsigned int len);
+void				decode(uint32_t *out, const uint8_t *in, uint32_t len);
 
 /*
 ** SHA256 WRAPPERS

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ssl.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <>                                 +#+  +:+       +#+        */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/08 20:02:58 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/09/23 16:06:09 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/10/04 15:41:07 by lfabbro           #+#    #+#             */
+/*   Updated: 2018/10/04 15:44:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ static const char	*g_ssl_usage =
 ** Get options for SSLCypher, call SSLCypher digest functions.
 ** (optind starts at zero to match the current option/argument)
 */
-static char	*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
+
+static char		*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
 	int64_t *opt)
 {
 	int		o;
 
 	g_optind = 1;
 	g_optreset = 1;
-	//ft_printf("ac: %d -- av: %s\n", ac, av[0]);
 	while (g_optind < ac && (o = ft_getopt(ac, av, SSL_OPTIONS)) != -1)
 	{
 		if (o == 'h' || o == BADCH || o == BADARG)
@@ -59,7 +59,8 @@ static char	*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
 ** Set bit to zero: ~(1UL << SSL_OPT_S)
 ** 1UL = 00000000000000000000000000000001
 */
-int			ft_ssl(int ac, char **av, t_ssl_cypher *cypher)
+
+int				ft_ssl(int ac, char **av, t_ssl_cypher *cypher)
 {
 	int			ret;
 	int64_t		opt;

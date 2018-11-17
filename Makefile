@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2518/01/04 15:18:12 by lfabbro           #+#    #+#              #
-#    Updated: 2018/09/23 12:20:01 by lfabbro          ###   ########.fr        #
+#    Updated: 2018/10/04 17:09:20 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ PROJECT		?= ft_ssl
 
 # Sources
 SRC_NAME		= \
-	main.c ft_ssl.c ft_ssl_md5.c ft_md5.c ft_ssl_sha256.c ft_sha256.c
+	main.c \
+	ft_ssl.c ft_ssl_md5.c ft_ssl_sha256.c \
+	ft_md5.c ft_md5_bis.c ft_md5_tool.c ft_md5_wrap.c \
+	ft_sha256.c ft_sha256_bis.c ft_sha256_wrap.c
 
 # Directories
 SRC_PATH	= src

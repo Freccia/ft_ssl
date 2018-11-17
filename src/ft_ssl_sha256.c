@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ssl_sha256.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <>                                 +#+  +:+       +#+        */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/21 10:20:55 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 18:06:35 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/10/04 17:08:47 by lfabbro           #+#    #+#             */
+/*   Updated: 2018/11/17 15:36:48 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,6 @@ static const char	*g_sha256_longerr =
 	"sha256: Error: message too long.\n"\
 	"	Limit fixed to 34,35 GB (34359738360 bytes)\n"
 };
-
-/*
-** Need this because of different algorithms arguments types
-*/
-void		ssl_sha256_init(void *ctx)
-{
-	sha256_init((t_sha256 *)ctx);
-}
-
-void		ssl_sha256_update(void *ctx, const uint8_t *data, uint32_t len)
-{
-	sha256_update((t_sha256*)ctx, data, len);
-}
-
-void		ssl_sha256_final(void *ctx, uint32_t *hash)
-{
-	sha256_final((t_sha256*)ctx, hash);
-}
 
 int			sha256_file(const char *filename, uint32_t digest[])
 {
@@ -100,12 +82,12 @@ void		sha256_data(const uint8_t *msg, uint32_t len, uint32_t digest[])
 /*
 ** Call SSLCypher string digest function, print output.
 */
+
 void		sha256_string(const char *msg, int opt)
 {
 	int64_t		len;
 	uint32_t	dig[SHA256_DIGEST_SIZE];
 
-	/* Check overflow */
 	if ((len = ft_ssl_strlen(msg)) > UINT32_MAX)
 		ft_exit(EXIT_FAILURE, g_sha256_longerr);
 	sha256_data((uint8_t*)msg, (uint32_t)len, dig);
@@ -123,6 +105,7 @@ void		sha256_string(const char *msg, int opt)
 /*
 ** Loop through arguments files, call SSLCypher file digest function.
 */
+
 int			sha256_files(int ac, char **av, int opt)
 {
 	int			i;

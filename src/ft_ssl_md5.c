@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   md5_md5.c                                       :+:      :+:    :+:   */
+/*   ft_ssl_md5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <>                                 +#+  +:+       +#+        */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/08 20:03:04 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 18:06:16 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/10/04 15:43:43 by lfabbro           #+#    #+#             */
+/*   Updated: 2018/11/17 15:37:14 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,6 @@ static const char	*g_md5_longerr =
 	"md5: Error: message too long.\n"\
 	"	Limit fixed to 34,35 GB (34359738360 bytes)\n"
 };
-
-/*
-** Need this because of different algorithms arguments types
-*/
-void		ssl_md5_init(void *ctx)
-{
-	md5_init((t_md5 *)ctx);
-}
-
-void		ssl_md5_update(void *ctx, const uint8_t *data, uint32_t len)
-{
-	md5_update((t_md5*)ctx, data, len);
-}
-
-void		ssl_md5_final(void *ctx, uint32_t *digest)
-{
-	md5_final((t_md5*)ctx, digest);
-}
 
 int			md5_file(const char *filename, uint32_t digest[])
 {
@@ -74,6 +56,7 @@ void		md5_filter(int quiet)
 	uint8_t		buffer[1024];
 
 	len = 0;
+	memset(digest, 0, sizeof(digest));
 	md5_init(&ctx);
 	while ((len = read(STDIN_FILENO, buffer, sizeof(buffer))))
 	{
@@ -100,12 +83,12 @@ void		md5_data(const uint8_t *msg, uint32_t len, uint32_t digest[])
 /*
 ** Call SSLCypher string digest function, print output.
 */
+
 void		md5_string(const char *msg, int opt)
 {
 	int64_t		len;
 	uint32_t	dig[MD5_DIGEST_SIZE];
 
-	/* Check overflow */
 	if ((len = ft_ssl_strlen(msg)) > UINT32_MAX)
 		ft_exit(EXIT_FAILURE, g_md5_longerr);
 	md5_data((uint8_t*)msg, (uint32_t)len, dig);
@@ -115,13 +98,14 @@ void		md5_string(const char *msg, int opt)
 		ft_printf("%08x%08x%08x%08x \"%s\"\n", dig[0], dig[1], dig[2], dig[3],
 				msg);
 	else
-		ft_printf("MD5(\"%s\") = %08x%08x%08x%08x\n",
+		ft_printf("MD5 (\"%s\") = %08x%08x%08x%08x\n",
 			msg, dig[0], dig[1], dig[2], dig[3]);
 }
 
 /*
 ** Loop through arguments files, call SSLCypher file digest function.
 */
+
 int			md5_files(int ac, char **av, int opt)
 {
 	int			i;
@@ -138,11 +122,11 @@ int			md5_files(int ac, char **av, int opt)
 			if (opt & SSL_OPT_Q)
 				ft_printf("%08x%08x%08x%08x\n", dig[0], dig[1], dig[2], dig[3]);
 			else if (opt & SSL_OPT_R)
-				ft_printf("%08x%08x%08x%08x %s\n", dig[0], dig[1], dig[2], dig[3],
-						av[i]);
+				ft_printf("%08x%08x%08x%08x %s\n", dig[0], dig[1], dig[2],
+						dig[3], av[i]);
 			else
-				ft_printf("MD5(%s) = %08x%08x%08x%08x\n",
-					av[1], dig[0], dig[1], dig[2], dig[3]);
+				ft_printf("MD5 (%s) = %08x%08x%08x%08x\n",
+					av[i], dig[0], dig[1], dig[2], dig[3]);
 		}
 		i++;
 		ft_memset(dig, 0, sizeof(dig));

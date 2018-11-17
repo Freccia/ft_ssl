@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 17:15:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/11/17 15:36:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/11/17 15:52:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,9 @@ static const t_ssl_cypher	g_cypher_md5 =
 {
 	"md5",
 	"MD5",
-	MD5_DIGEST_SIZE,
 	sizeof(t_md5),
-	ssl_md5_init,
-	ssl_md5_update,
-	ssl_md5_final,
 	md5_string,
 	md5_filter,
-	md5_file,
-	md5_data,
 	md5_files
 };
 
@@ -37,15 +31,9 @@ static const t_ssl_cypher	g_cypher_sha256 =
 {
 	"sha256",
 	"SHA256",
-	SHA256_DIGEST_SIZE,
 	sizeof(t_sha256),
-	ssl_sha256_init,
-	ssl_sha256_update,
-	ssl_sha256_final,
 	sha256_string,
 	sha256_filter,
-	sha256_file,
-	sha256_data,
 	sha256_files
 };
 

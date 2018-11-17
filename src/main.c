@@ -17,7 +17,7 @@
 #include "error.h"
 #include <unistd.h>
 
-static const t_ssl_cypher	g_cypher_md5 =
+static const t_ssl_cipher	g_cipher_md5 =
 {
 	"md5",
 	"MD5",
@@ -27,7 +27,7 @@ static const t_ssl_cypher	g_cypher_md5 =
 	md5_files
 };
 
-static const t_ssl_cypher	g_cypher_sha256 =
+static const t_ssl_cipher	g_cipher_sha256 =
 {
 	"sha256",
 	"SHA256",
@@ -39,19 +39,19 @@ static const t_ssl_cypher	g_cypher_sha256 =
 
 static const char	*g_ft_ssl_usage =
 {
-	"Usage: %s [ options ] (cypher) [ options ]\n"\
+	"Usage: %s [ options ] (cipher) [ options ]\n"\
 	"		-h : Show this help message\n"\
-	"cypher: md5, sha256\n"
+	"cipher: md5, sha256\n"
 };
 
-static const char	*g_ft_ssl_invalid_cyph =
+static const char	*g_ft_ssl_invalid_ciph =
 {
 	"%s: Error: '%s' is an invalid command.\n"\
 	"\nStandard commands:\n"
 	"\nMessage Digest commands:\n"
 	"md5\n"
 	"sha256\n"
-	"\nCypher commands:\n"
+	"\nCipher commands:\n"
 };
 
 uint64_t		ft_ssl_strlen(const char *msg)
@@ -67,22 +67,22 @@ uint64_t		ft_ssl_strlen(const char *msg)
 static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 {
 	ctx->opt = 0;
-	ctx->cypher[0] = g_cypher_md5;
-	ctx->cypher[1] = g_cypher_sha256;
+	ctx->cipher[0] = g_cipher_md5;
+	ctx->cipher[1] = g_cipher_sha256;
 }
 
-static int		ft_ssl_getcypher(int ac, char **av, t_ssl_ctx *ctx)
+static int		ft_ssl_getcipher(int ac, char **av, t_ssl_ctx *ctx)
 {
 	int		i;
 
 	i = 0;
-	while (i < N_CYPHERS)
+	while (i < N_CIPHERS)
 	{
-		if (ft_strcmp(ctx->cypher[i].name, av[g_optind]) == 0)
-			return (ft_ssl(ac - g_optind, &av[g_optind], &(ctx->cypher[i])));
+		if (ft_strcmp(ctx->cipher[i].name, av[g_optind]) == 0)
+			return (ft_ssl(ac - g_optind, &av[g_optind], &(ctx->cipher[i])));
 		++i;
 	}
-	return (ft_exit(EXIT_FAILURE, g_ft_ssl_invalid_cyph, av[0], av[g_optind]));
+	return (ft_exit(EXIT_FAILURE, g_ft_ssl_invalid_ciph, av[0], av[g_optind]));
 }
 
 int				main(int ac, char **av)
@@ -93,5 +93,5 @@ int				main(int ac, char **av)
 		return (ft_exit(EXIT_FAILURE, g_ft_ssl_usage, av[0]));
 	g_optind = 1;
 	ft_ssl_init_ctx(&ctx);
-	return (ft_ssl_getcypher(ac, av, &ctx));
+	return (ft_ssl_getcipher(ac, av, &ctx));
 }

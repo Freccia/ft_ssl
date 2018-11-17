@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:23:35 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 17:20:27 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/11/17 15:54:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@
 
 # define CH(x, y, z)		(((x) & (y)) ^ (~(x) & (z)))
 # define MAJ(x, y, z)		(((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
-# define BSIG0(x)				(ROTR(x,  2) ^ ROTR(x, 13) ^ ROTR(x, 22))
-# define BSIG1(x)				(ROTR(x,  6) ^ ROTR(x, 11) ^ ROTR(x, 25))
+# define BSIG0(x)			(ROTR(x,  2) ^ ROTR(x, 13) ^ ROTR(x, 22))
+# define BSIG1(x)			(ROTR(x,  6) ^ ROTR(x, 11) ^ ROTR(x, 25))
 # define SSIG0(x)			(ROTR(x,  7) ^ ROTR(x, 18) ^ ((x) >>  3))
 # define SSIG1(x)			(ROTR(x, 17) ^ ROTR(x, 19) ^ ((x) >> 10))
 

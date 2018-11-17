@@ -24,11 +24,11 @@ static const char	*g_ssl_usage =
 };
 
 /*
-** Get options for SSLCypher, call SSLCypher digest functions.
+** Get options for SSLCipher, call SSLCipher digest functions.
 ** (optind starts at zero to match the current option/argument)
 */
 
-static char		*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
+static char		*ft_ssl_getopt(int ac, char **av, t_ssl_cipher *cipher,
 	int64_t *opt)
 {
 	int		o;
@@ -40,9 +40,9 @@ static char		*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
 		if (o == 'h' || o == BADCH || o == BADARG)
 			ft_exit(EXIT_FAILURE, g_ssl_usage, av[0]);
 		if (o == 's' && (*opt |= SSL_OPT_S))
-			cypher->cy_string(g_optarg, *opt);
+			cipher->ci_string(g_optarg, *opt);
 		else if (o == 'p')
-			cypher->cy_filter((*opt & SSL_OPT_Q) ? 1 : 0);
+			cipher->ci_filter((*opt & SSL_OPT_Q) ? 1 : 0);
 		else if (o == 'q')
 			*opt |= SSL_OPT_Q;
 		else if (o == 'r')
@@ -52,15 +52,15 @@ static char		*ft_ssl_getopt(int ac, char **av, t_ssl_cypher *cypher,
 }
 
 /*
-** SSLCypher Body, chooses which function tu use to digest message
+** SSLCipher Body, chooses which function tu use to digest message
 ** ac -> arguments lenght
 ** av -> arguments pointers
-** cypher -> structure pointer to the cypher algorithm
+** cipher -> structure pointer to the cipher algorithm
 ** Set bit to zero: ~(1UL << SSL_OPT_S)
 ** 1UL = 00000000000000000000000000000001
 */
 
-int				ft_ssl(int ac, char **av, t_ssl_cypher *cypher)
+int				ft_ssl(int ac, char **av, t_ssl_cipher *cipher)
 {
 	int			ret;
 	int64_t		opt;
@@ -69,11 +69,11 @@ int				ft_ssl(int ac, char **av, t_ssl_cypher *cypher)
 	ret = 0;
 	if (ac < 1)
 		return (EXIT_FAILURE);
-	ft_ssl_getopt(ac, av, cypher, &opt);
+	ft_ssl_getopt(ac, av, cipher, &opt);
 	if (av[g_optind])
-		ret = cypher->cy_files(ac, av, opt);
+		ret = cipher->ci_files(ac, av, opt);
 	else if (!(opt & SSL_OPT_S) &&
 			(g_optind == 1 || (opt & SSL_OPT_R) || (opt & SSL_OPT_Q)))
-		cypher->cy_filter((opt & SSL_OPT_Q) ? 1 : 0);
+		cipher->ci_filter((opt & SSL_OPT_Q) ? 1 : 0);
 	return (ret);
 }

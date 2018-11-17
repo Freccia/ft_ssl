@@ -81,7 +81,7 @@ void		md5_data(const uint8_t *msg, uint32_t len, uint32_t digest[])
 }
 
 /*
-** Call SSLCypher string digest function, print output.
+** Call SSLCipher string digest function, print output.
 */
 
 void		md5_string(const char *msg, int opt)
@@ -103,7 +103,7 @@ void		md5_string(const char *msg, int opt)
 }
 
 /*
-** Loop through arguments files, call SSLCypher file digest function.
+** Loop through arguments files, call SSLCipher file digest function.
 */
 
 int			md5_files(int ac, char **av, int opt)

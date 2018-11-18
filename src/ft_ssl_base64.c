@@ -1,16 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_base64.c                                        :+:      :+:    :+:   */
+/*   ft_ssl_base64.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:42:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/11/17 18:20:00 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/11/18 16:57:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "base64.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 void	base64_data(const uint8_t *msg, uint32_t len, uint8_t **encoded)
 {
@@ -22,19 +25,29 @@ void	base64_data(const uint8_t *msg, uint32_t len, uint8_t **encoded)
 		ft_exit(EXIT_FAILURE, FAIL_MALLOC);
 }
 
+/*
+** (void)quiet for compatibility with hashes
+*/
 void	base64_filter(int quiet)
 {
 	int64_t		len;
 	uint8_t		*encoded;
-	uint8_t		*buffer;
+	uint8_t		*msg;
+	uint8_t		buffer[BASE64_BUFSIZE];
 
+	(void)quiet;
 	len = 0;
-	if ((buffer = (uint8_t*)malloc(BASE64_BUFSIZE)) == NULL)
-		ft_exit(EXIT_FAILURE, FAIL_MALLOC);
+	msg = NULL;
+	encoded = NULL;
 	while ((len += read(STDIN_FILENO, buffer, sizeof(BASE64_BUFSIZE))))
 	{
-		
+		tmp = ft_strjoin(msg, buffer);
+		free(msg);
+		msg = tmp;
 	}
+	base64_data(msg, len, &encoded);
+	ft_printf("%s\n", encoded);
+	ft_memset(encoded, 0, len);
 }
 
 void	base64_string(const char *msg, int opt)
@@ -45,7 +58,7 @@ void	base64_string(const char *msg, int opt)
 	encoded = NULL;
 	if ((len = ft_ssl_strlen(msg)) > UINT32_MAX)
 		ft_exit(EXIT_FAILURE, g_base64_longerr);
-	base64_data((uint8_t)mg, (uint32_t)len, &encoded);
+	base64_data((uint8_t)msg, (uint32_t)len, &encoded);
 	if (opt & SSL_OPT_Q)
 		ft_printf("%s\n", &encoded);
 	else if (opt & SSL_OPT_R)
@@ -62,7 +75,8 @@ void	base64_string(const char *msg, int opt)
 int		base64_file(const char *filename, uint32_t **encoded)
 {
 	int			fd;
-	int			len;
+	char		*msg;
+	stat		stat_file;
 
 	len = 0;
 	if ((fd = open(filename, O_RDONLY)) < 0)
@@ -70,8 +84,23 @@ int		base64_file(const char *filename, uint32_t **encoded)
 		ft_printf("%s can't be opened\n", filename);
 		return (EXIT_FAILURE);
 	}
-	base64_data(msg, len, encoded);
-	// memset?
+	if (fstat(fd, &stat_file) == -1)
+	{
+		ft_printf("Failed to stat file: %s\n", filename);
+		return (EXIT_FAILURE);
+	}
+	if ((msg = (char*)malloc(stat_file.st_size)) == NULL)
+		ft_exit(EXIT_FAILURE, FAIL_MALLOC);
+	if (read(fd, msg, stat_file.st_size) == -1)
+		ft_exit(EXIT_FAILURE, FAIL_READ);
+	base64_data(msg, stat_file.st_size, encoded);
+	// memset 0?
+	if (close(fd))
+	{
+		ft_printf("Failed to close file: %s\n", filename);
+		return (EXIT_FAILURE);
+	}
+	return (EXIT_SUCCESS);
 }
 
 int		base64_files(int ac, char **av, int opt)

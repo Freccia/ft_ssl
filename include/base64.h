@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:43:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/11/17 15:46:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/11/18 16:39:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 ** bits in a word
 */
 # define BASE64_WORD			sizeof(uint32_t) * 8
-# define BASE64_BUFFER_SIZE		64
+# define BASE64_BUFSIZE			1024
 
 /*
 ** Base64 isn't fixed

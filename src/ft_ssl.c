@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:41:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 14:11:29 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/14 16:09:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ static char		*ft_ssl_getopt(int ac, char **av, t_ssl_cipher *cipher,
 			*opt |= SSL_OPT_Q;
 		else if (o == 'r')
 			*opt |= SSL_OPT_R;
+		else if (o == 'e') // if base64
+			*opt |= SSL_OPT_ENC;
+		else if (o == 'd') // if base64
+			*opt |= SSL_OPT_DEC;
 	}
 	return (av[ac]);
 }

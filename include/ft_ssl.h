@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 13:22:09 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/14 16:10:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,14 @@
 /*
 ** SSL Cipher Options
 */
-# define SSL_OPTIONS	"hpqrs:"
+# define SSL_OPTIONS	"hpqrs:ed"
 # define SSL_OPT_P		1
 # define SSL_OPT_Q		2
 # define SSL_OPT_R		4
 # define SSL_OPT_S		8
-# define SSL_OPT_END	16
+# define SSL_OPT_ENC	16
+# define SSL_OPT_DEC	32
+# define SSL_OPT_END	64
 
 typedef struct		s_ssl_cipher
 {

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:43:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 14:14:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/14 16:09:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct		s_base64_ctx
 ** base64 CORE
 */
 void				b64_encode(const uint8_t *d, uint32_t len, uint8_t *e);
-void				b64_decode(const uint8_t *e, uint32_t len, uint8_t **d);
+void				b64_decode(const uint8_t *e, uint32_t len, uint8_t *d);
 
 /*
 ** base64 WRAPPERS
@@ -52,10 +52,11 @@ void				ssl_base64_update(void *ctx, const uint8_t data[],
 						uint32_t len);
 void				ssl_base64_final(void *ctx, uint32_t hash[]);
 
-int					base64_file (const char *filename, uint8_t **encoded);
+int					base64_file (const char *filename, uint8_t **enc, int opt);
 void				base64_string(const char *msg, int opt);
-void				base64_data(const uint8_t *msg, uint32_t len, uint8_t **e);
-void				base64_filter(int quiet);
+void				base64_data(const uint8_t *msg, uint32_t len, uint8_t **enc,
+						int opt);
+void				base64_filter(int opt);
 int					base64_files(int ac, char **av, int opt);
 
 

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:43:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/11/17 15:37:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/14 13:37:12 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include <stdio.h>
+//#include <stdio.h>
 
 static const char	*g_md5_longerr =
 {

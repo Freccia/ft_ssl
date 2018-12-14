@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/11/17 15:52:40 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/14 13:22:09 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
-# define N_CIPHERS		2
+# define N_CIPHERS		3
 
 /*
 ** SSL Cipher Options

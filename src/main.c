@@ -6,12 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 17:15:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/11/17 15:52:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/14 14:10:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "md5.h"
 #include "sha256.h"
+#include "base64.h"
 #include "ft_ssl.h"
 #include "get_next_line.h"
 #include "error.h"
@@ -35,6 +36,16 @@ static const t_ssl_cipher	g_cipher_sha256 =
 	sha256_string,
 	sha256_filter,
 	sha256_files
+};
+
+static const t_ssl_cipher	g_cipher_base64 =
+{
+	"base64",
+	"BASE64",
+	sizeof(t_base64),
+	base64_string,
+	base64_filter,
+	base64_files
 };
 
 static const char	*g_ft_ssl_usage =
@@ -69,6 +80,7 @@ static void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 	ctx->opt = 0;
 	ctx->cipher[0] = g_cipher_md5;
 	ctx->cipher[1] = g_cipher_sha256;
+	ctx->cipher[2] = g_cipher_base64;
 }
 
 static int		ft_ssl_getcipher(int ac, char **av, t_ssl_ctx *ctx)

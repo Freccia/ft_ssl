@@ -6,32 +6,32 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:14:53 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/13 20:22:26 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/14 15:11:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "base64.h"
 #include <sys/types.h>
 
-void	b64_encode(const uint8_t *data, uint32_t len, uint8_t **encoded)
+const char b64[] =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
+void	b64_encode(const uint8_t *data, uint32_t len, uint8_t *encoded)
 {
-	int			i;
-	int			j;
-	uint8_t		blk[3] = {0};
+	uint32_t	i;
+	uint32_t	j;
 
 	i = 0;
+	j = 0;
 	while (i < len)
 	{
-		j = 0;
-		while (j < 3)
-		{
-			blk[j] = data[i + j];
-			if (data[i+ j])
-			{
-				++j;
-				++i;
-			}
-		}
-		b64_encode_block(blk);
+		encoded[j] = (uint8_t)b64[data[i] >> 2];
+		encoded[j + 1] = (uint8_t)b64[((data[i] & 0x03) << 4) | ((data[i + 1] & 0xf0) >> 4)];
+		encoded[j + 2] = (uint8_t)(i + 1 < len) ?
+				b64[((data[i + 1] & 0x0f) << 2) | ((data[i + 2] & 0xc0) >> 6)] : '=';
+		encoded[j + 3] = (uint8_t)(i + 2 < len) ? b64[data[i + 2] & 0x3f] : '=';
+		encoded[j + 4] = '\0';
+		i += 3;
+		j += 4;
 	}
 }

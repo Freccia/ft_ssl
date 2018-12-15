@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:42:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/15 23:14:22 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 23:30:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	base64_filter(int opt)
 	base64_data(msg, len, &encoded, opt);
 	len = ft_strlen((char*)encoded);
 	// TODO: clean this hack
-	for (int64_t i=0; i < len; i += 76)
+	for (int64_t i=0; i < len; i += 64)
 	{
 		tmplen = ft_strlen((char*)&encoded[i]);
-		write(1, &encoded[i], (tmplen < 76) ? tmplen : 76);
+		write(1, &encoded[i], (tmplen < 64) ? tmplen : 64);
 		if (opt & SSL_OPT_ENC)
 			write(1, "\n", 1);
 	}

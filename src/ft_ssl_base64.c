@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:42:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/15 22:50:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 23:14:22 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	base64_filter(int opt)
 		len += tmplen;
 	}
 	base64_data(msg, len, &encoded, opt);
-	//ft_printf("%s\n", encoded);
 	len = ft_strlen((char*)encoded);
 	// TODO: clean this hack
 	for (int64_t i=0; i < len; i += 76)

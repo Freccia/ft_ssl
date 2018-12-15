@@ -6,7 +6,7 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:14:53 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/15 23:12:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 23:13:59 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,11 @@ void			b64_decode(const uint8_t *enc, uint32_t len, uint8_t *data)
 	uint8_t		valid;
 	uint8_t		blk[4] = {0};
 
-	/*
-	ft_printf("DECODE\n");
-	ft_printf("len: %d\n", len);
-	ft_printf("enc: %s\n", enc);
-	*/
 	i = 0;
 	j = 0;
 	valid = 1;
 	while (i < len)
 	{
-	/*
-		ft_printf("i: %d\n", i);
-		ft_printf("valid: %d\n", valid);
-		ft_printf("enc: %x %x %x %x\n", enc[i], enc[i+1], enc[i+2], enc[i+3]);
-	*/
 		k = 0;
 		valid = 1;
 		while (k < 4)
@@ -90,19 +80,10 @@ void			b64_decode(const uint8_t *enc, uint32_t len, uint8_t *data)
 			}
 			++k;
 		}
-	//	ft_printf("blk: %x %x %x %x\n", blk[0], blk[1], blk[2], blk[3]);
 		data[j] = ((blk[0] & 0x3f) << 2) | ((blk[1] & 0x30) >> 4);
 		data[++j] = ((blk[1] & 0x0f) << 4) | ((blk[2] & 0x3c) >> 2);
 		data[++j] = ((blk[2] & 0x03) << 6) | ((blk[3] & 0x3f) >> 0);
 		data[++j] = '\0';
-	//	ft_printf("data: %x %x %x %x\n\n", data[j-3], data[j-2], data[j-1], data[j]);
-	//	ft_printf("data: %s\n\n", data);
 		i += 4;
 	}
-	/*
-	for (uint32_t t = 0; t < len; t++)
-	{
-		ft_printf("%x - ", data[t]);
-	}
-	*/
 }

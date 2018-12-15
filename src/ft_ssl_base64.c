@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:42:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/15 13:07:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 22:50:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ void	base64_filter(int opt)
 	{
 		tmplen = ft_strlen((char*)&encoded[i]);
 		write(1, &encoded[i], (tmplen < 76) ? tmplen : 76);
-		write(1, "\n", 1);
+		if (opt & SSL_OPT_ENC)
+			write(1, "\n", 1);
 	}
 	ft_memset(encoded, 0, len);
 }

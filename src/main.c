@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 17:15:19 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 14:10:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 12:12:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,10 @@ static const t_ssl_cipher	g_cipher_base64 =
 
 static const char	*g_ft_ssl_usage =
 {
-	"Usage: %s [ options ] (cipher) [ options ]\n"\
+	"Usage: %s [ options ] (command) [ options ]\n"\
 	"		-h : Show this help message\n"\
-	"cipher: md5, sha256\n"
+	"digests: md5, sha256\n"
+	"ciphers: base64\n"
 };
 
 static const char	*g_ft_ssl_invalid_ciph =

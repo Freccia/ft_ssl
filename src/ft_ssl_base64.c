@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:42:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 16:12:13 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 13:07:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ static const char	*g_base64_longerr =
 	"	Limit fixed to 34,35 GB (34359738360 bytes)\n"
 };
 
-
-const char bb64[] =
-			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
 void	base64_data(const uint8_t *data, uint32_t len, uint8_t **enc, int opt)
 {
 	uint64_t	b64len;
@@ -40,8 +36,6 @@ void	base64_data(const uint8_t *data, uint32_t len, uint8_t **enc, int opt)
 		b64_encode(data, len, *enc);
 	else if (opt & SSL_OPT_DEC)
 		b64_decode(data, len, *enc);
-	write(1, *enc, b64len);
-	write(1, "\n", 1);
 }
 
 /*
@@ -50,23 +44,33 @@ void	base64_data(const uint8_t *data, uint32_t len, uint8_t **enc, int opt)
 void	base64_filter(int opt)
 {
 	int64_t		len;
+	int64_t		tmplen;
 	uint8_t		*encoded;
 	uint8_t		*msg;
 	uint8_t		*tmp;
 	uint8_t		buffer[BASE64_BUFSIZE];
 
-	(void)opt;
 	len = 0;
 	msg = NULL;
 	encoded = NULL;
-	while ((len += read(STDIN_FILENO, buffer, sizeof(BASE64_BUFSIZE))))
+	while ((tmplen = read(STDIN_FILENO, buffer, sizeof(BASE64_BUFSIZE))))
 	{
+		buffer[tmplen] = '\0';
 		tmp = (uint8_t*)ft_strjoin((char*)msg, (char*)buffer);
 		free(msg);
 		msg = tmp;
+		len += tmplen;
 	}
 	base64_data(msg, len, &encoded, opt);
-	ft_printf("%s\n", encoded);
+	//ft_printf("%s\n", encoded);
+	len = ft_strlen((char*)encoded);
+	// TODO: clean this hack
+	for (int64_t i=0; i < len; i += 76)
+	{
+		tmplen = ft_strlen((char*)&encoded[i]);
+		write(1, &encoded[i], (tmplen < 76) ? tmplen : 76);
+		write(1, "\n", 1);
+	}
 	ft_memset(encoded, 0, len);
 }
 

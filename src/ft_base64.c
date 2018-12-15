@@ -6,7 +6,7 @@
 /*   By: lfabbro <lfabbro@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 20:14:53 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 16:10:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 12:59:51 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	b64_encode(const uint8_t *data, uint32_t len, uint8_t *enc)
 	uint32_t	i;
 	uint32_t	j;
 
-	ft_printf("ENCODE\n");
+	//ft_printf("ENCODE\n");
 	i = 0;
 	j = 0;
 	while (i < len)
@@ -50,6 +50,12 @@ void	b64_decode(const uint8_t *enc, uint32_t len, uint8_t *data)
 		data[++j] = ((enc[i + 1] & 0x03) << 4) | ((enc[i + 2] & 0x0f) >> 2);
 		data[++j] = ((enc[i + 2] & 0x03) << 6) | ((enc[i + 3] & 0x0f) >> 0);
 		data[++j] = '\0';
+	/*
+		data[j] =       enc[i] << 2 | enc[i + 1] >> 4;
+		data[++j] = enc[i + 1] << 4 | enc[i + 2] >> 2;
+		data[++j] = enc[i + 2] << 6 | enc[i + 3] >> 0;
+		data[++j] = '\0';
+	*/
 		i += 3;
 	}
 }

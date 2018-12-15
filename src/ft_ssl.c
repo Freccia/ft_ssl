@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:41:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 16:09:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/12/15 12:43:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ int				ft_ssl(int ac, char **av, t_ssl_cipher *cipher)
 	ft_ssl_getopt(ac, av, cipher, &opt);
 	if (av[g_optind])
 		ret = cipher->ci_files(ac, av, opt);
-	else if (!(opt & SSL_OPT_S) &&
-			(g_optind == 1 || (opt & SSL_OPT_R) || (opt & SSL_OPT_Q)))
-		cipher->ci_filter((opt & SSL_OPT_Q) ? 1 : 0);
+	else if (!(opt & SSL_OPT_S) )//&&
+			//(g_optind == 1 || (opt & SSL_OPT_R) || (opt & SSL_OPT_Q)))
+		//cipher->ci_filter((opt & SSL_OPT_Q) ? 1 : 0);
+		cipher->ci_filter(opt);
 	return (ret);
 }

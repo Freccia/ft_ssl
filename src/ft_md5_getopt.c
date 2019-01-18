@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:56:09 by marvin            #+#    #+#             */
-/*   Updated: 2019/01/18 15:17:30 by marvin           ###   ########.fr       */
+/*   Updated: 2019/01/18 19:57:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ char		*ft_hash_getopt(int ac, char **av, t_ssl_cipher *cipher,
 		if (o == 's' && (*opt |= SSL_OPT_S))
 			cipher->ci_string(g_optarg, *opt);
 		else if (o == 'p')
-			cipher->ci_filter((*opt & SSL_OPT_Q) ? 1 : 0);
+		{
+			*opt = (*opt | SSL_OPT_P);
+			cipher->ci_filter(*opt);
+		}
 		else if (o == 'q')
 			*opt |= SSL_OPT_Q;
 		else if (o == 'r')

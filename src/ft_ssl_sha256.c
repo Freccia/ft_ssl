@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 17:08:47 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/13 20:14:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2019/01/18 19:49:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		sha256_data(const uint8_t *msg, uint32_t len, uint32_t digest[])
 	ft_memset(&ctx, 0, sizeof(ctx));
 }
 
-void		sha256_filter(int quiet)
+void		sha256_filter(int opt)
 {
 	t_sha256	ctx;
 	int64_t		len;
@@ -44,7 +44,7 @@ void		sha256_filter(int quiet)
 	while ((len = read(STDIN_FILENO, buffer, sizeof(buffer))))
 	{
 		buffer[len] = 0;
-		if (!quiet)
+		if (opt & SSL_OPT_P)
 			ft_printf("%s", buffer);
 		sha256_update(&ctx, buffer, len);
 	}

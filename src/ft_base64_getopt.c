@@ -6,7 +6,7 @@
 /*   By: marvin <>                                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 15:13:46 by marvin            #+#    #+#             */
-/*   Updated: 2019/01/18 16:35:41 by marvin           ###   ########.fr       */
+/*   Updated: 2019/01/18 20:02:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char		*ft_base64_getopt(int ac, char **av, t_ssl_cipher *cipher,
 
 	g_optind = 1;
 	g_optreset = 1;
+	*opt = (*opt | SSL_OPT_ENC);
 	while (g_optind < ac && (o = ft_getopt(ac, av, SSL_OPTIONS)) != -1)
 	{
 		if (o == 'h' || o == BADCH || o == BADARG)
@@ -44,7 +45,10 @@ char		*ft_base64_getopt(int ac, char **av, t_ssl_cipher *cipher,
 		if (o == 's' && (*opt |= SSL_OPT_S))
 			cipher->ci_string(g_optarg, *opt);
 		else if (o == 'p')
-			cipher->ci_filter((*opt & SSL_OPT_Q) ? 1 : 0);
+		{
+			*opt = (*opt | SSL_OPT_P);
+			cipher->ci_filter(*opt);
+		}
 		else if (o == 'q')
 			*opt |= SSL_OPT_Q;
 		else if (o == 'r')
@@ -52,7 +56,7 @@ char		*ft_base64_getopt(int ac, char **av, t_ssl_cipher *cipher,
 		else if (o == 'e')
 			*opt |= SSL_OPT_ENC;
 		else if (o == 'd')
-			*opt |= SSL_OPT_DEC;
+			*opt = (*opt ^ SSL_OPT_ENC) | SSL_OPT_DEC;
 	}
 	return (av[ac]);
 }

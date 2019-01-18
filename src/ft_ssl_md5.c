@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:43:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/18 14:54:06 by marvin           ###   ########.fr       */
+/*   Updated: 2019/01/18 19:48:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int			md5_file(const char *filename, uint32_t digest[])
 	return (EXIT_SUCCESS);
 }
 
-void		md5_filter(int quiet)
+void		md5_filter(int opt)
 {
 	t_md5		ctx;
 	int64_t		len;
@@ -61,7 +61,7 @@ void		md5_filter(int quiet)
 	while ((len = read(STDIN_FILENO, buffer, sizeof(buffer))))
 	{
 		buffer[len] = 0;
-		if (!quiet)
+		if (opt && SSL_OPT_P)
 			ft_printf("%s", buffer);
 		md5_update(&ctx, buffer, len);
 	}

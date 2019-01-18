@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/18 15:31:35 by marvin           ###   ########.fr       */
+/*   Updated: 2019/01/18 19:49:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct		s_ssl_cipher
 	char			*(*ci_getopt)(int ac, char **av, struct s_ssl_cipher *ci,
 		int64_t *opt);
 	void			(*ci_string)(const char *msg, int opt);
-	void			(*ci_filter)(int quiet);
+	void			(*ci_filter)(int opt);
 	int				(*ci_files)(int ac, char **av, int opt);
 }					t_ssl_cipher;
 

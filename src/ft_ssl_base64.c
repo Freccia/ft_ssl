@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:42:31 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/15 23:30:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2019/01/18 19:50:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	base64_data(const uint8_t *data, uint32_t len, uint8_t **enc, int opt)
 }
 
 /*
-** (void)quiet for compatibility with hashes
+**
 */
 void	base64_filter(int opt)
 {

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:43:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/18 19:48:54 by marvin           ###   ########.fr       */
+/*   Updated: 2019/01/18 20:05:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		md5_filter(int opt)
 	while ((len = read(STDIN_FILENO, buffer, sizeof(buffer))))
 	{
 		buffer[len] = 0;
-		if (opt && SSL_OPT_P)
+		if (opt & SSL_OPT_P)
 			ft_printf("%s", buffer);
 		md5_update(&ctx, buffer, len);
 	}

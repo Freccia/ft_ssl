@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:23:35 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/11/17 15:54:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2019/01/18 15:32:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SHA256_H
 
 # include "libft.h"
+# include "ft_ssl.h"
 # include <stdint.h>
 
 /*
@@ -67,8 +68,12 @@ typedef struct		s_transform_ctx {
 	uint32_t		t1;
 	uint32_t		t2;
 	uint32_t		m[64];
-
 }					t_transform_ctx;
+
+/*
+** SHA256 TOOLS
+*/
+char		*ft_hash_getopt(int ac, char **av, t_ssl_cipher *ci, int64_t *opt);
 
 /*
 ** SHA256 CORE

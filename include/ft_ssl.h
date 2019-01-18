@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 16:10:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2019/01/18 15:31:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct		s_ssl_cipher
 	char			name[8];
 	char			ci_name[8];
 	uint64_t		ctx_size;
+	char			*(*ci_getopt)(int ac, char **av, struct s_ssl_cipher *ci,
+		int64_t *opt);
 	void			(*ci_string)(const char *msg, int opt);
 	void			(*ci_filter)(int quiet);
 	int				(*ci_files)(int ac, char **av, int opt);
@@ -59,6 +61,8 @@ uint64_t			ft_ssl_strlen(const char *msg);
 /*
 ** FT_SSL FUNCTIONS
 */
-int					ft_ssl(int ac, char **av, t_ssl_cipher *chyphr);
+int					ft_ssl(int ac, char **av, t_ssl_cipher *ci);
+int					ft_ssl_getcipher(int ac, char **av, t_ssl_ctx *ctx);
+void				ft_ssl_init_ctx(t_ssl_ctx *ctx);
 
 #endif

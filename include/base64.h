@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:43:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/12/14 16:09:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2019/01/18 16:24:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BASE64_H
 
 # include "libft.h"
+# include "ft_ssl.h"
 # include <stdint.h>
 
 /*
@@ -39,6 +40,12 @@ typedef struct		s_base64_ctx
 }					t_base64;
 
 /*
+** base64 TOOLS
+*/
+char		*ft_base64_getopt(int ac, char **av, struct s_ssl_cipher *ci,
+	int64_t *op);
+
+/*
 ** base64 CORE
 */
 void				b64_encode(const uint8_t *d, uint32_t len, uint8_t *e);
@@ -52,6 +59,9 @@ void				ssl_base64_update(void *ctx, const uint8_t data[],
 						uint32_t len);
 void				ssl_base64_final(void *ctx, uint32_t hash[]);
 
+/*
+**
+*/
 int					base64_file (const char *filename, uint8_t **enc, int opt);
 void				base64_string(const char *msg, int opt);
 void				base64_data(const uint8_t *msg, uint32_t len, uint8_t **enc,

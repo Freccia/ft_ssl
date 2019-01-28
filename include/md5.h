@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/25 14:48:36 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/10/04 16:29:41 by lfabbro          ###   ########.fr       */
+/*   Updated: 2019/01/23 18:44:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,11 @@ void				decode(uint32_t *out, const uint8_t *in, uint32_t len);
 /*
 ** SHA256 WRAPPERS
 */
+/* This are unused now
 void				ssl_md5_init(void *ctx);
 void				ssl_md5_update(void *ctx, const uint8_t *dat, uint32_t len);
 void				ssl_md5_final(void *ctx, uint32_t *digest);
+*/
 
 int					md5_file (const char *filename, uint32_t digest[]);
 void				md5_string(const char *msg, int opt);

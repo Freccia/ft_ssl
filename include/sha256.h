@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/21 10:23:35 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/18 15:32:45 by marvin           ###   ########.fr       */
+/*   Updated: 2019/01/23 18:44:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,12 @@ void				sha256_final(t_sha256 *ctx, uint32_t hash[]);
 /*
 ** SHA256 WRAPPERS
 */
+/* This is unused now
 void				ssl_sha256_init(void *ctx);
 void				ssl_sha256_update(void *ctx, const uint8_t data[],
 						uint32_t len);
 void				ssl_sha256_final(void *ctx, uint32_t hash[]);
+*/
 
 int					sha256_file (const char *filename, uint32_t digest[]);
 void				sha256_string(const char *msg, int opt);

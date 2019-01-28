@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:41:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/18 19:57:44 by marvin           ###   ########.fr       */
+/*   Updated: 2019/01/23 18:40:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ static const t_ssl_cipher	g_cipher_base64 =
 	base64_files
 };
 
+static const t_ssl_cipher	g_cipher_des =
+{
+	"des",
+	"DES",
+	sizeof(t_des),
+	ft_des_getopt,
+	des_string,
+	des_filter,
+	des_files
+};
 
 static const char	*g_ft_ssl_invalid_ciph =
 {
@@ -61,6 +71,7 @@ static const char	*g_ft_ssl_invalid_ciph =
 	"sha256\n"
 	"\nCipher commands:\n"
 	"base64\n"
+	"des\n"
 };
 
 uint64_t		ft_ssl_strlen(const char *msg)
@@ -79,6 +90,7 @@ void		ft_ssl_init_ctx(t_ssl_ctx *ctx)
 	ctx->cipher[0] = g_cipher_md5;
 	ctx->cipher[1] = g_cipher_sha256;
 	ctx->cipher[2] = g_cipher_base64;
+	ctx->cipher[3] = g_cipher_des;
 }
 
 /*

@@ -6,12 +6,15 @@
 /*   By: marvin <>                                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 18:38:47 by marvin            #+#    #+#             */
-/*   Updated: 2019/01/29 15:15:06 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/06 16:00:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DES_H
 # define DES_H
+
+# define ENCRYPTION_MODE 0
+# define DECRYPTION_MODE 1
 
 typedef struct		s_des_ctx {
 	uint32_t		regs[4];

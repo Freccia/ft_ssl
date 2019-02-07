@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:41:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/23 18:40:11 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/07 22:55:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "md5.h"
 #include "sha256.h"
 #include "base64.h"
+#include "des.h"
 #include "get_next_line.h"
 #include "error.h"
 #include <unistd.h>

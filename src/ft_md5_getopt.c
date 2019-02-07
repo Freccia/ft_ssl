@@ -6,11 +6,12 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:56:09 by marvin            #+#    #+#             */
-/*   Updated: 2019/01/18 19:57:40 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/07 22:59:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
+#include "md5.h"
 #include <limits.h>
 
 static const char	*g_hash_usage =
@@ -35,7 +36,7 @@ char		*ft_hash_getopt(int ac, char **av, t_ssl_cipher *cipher,
 
 	g_optind = 1;
 	g_optreset = 1;
-	while (g_optind < ac && (o = ft_getopt(ac, av, SSL_OPTIONS)) != -1)
+	while (g_optind < ac && (o = ft_getopt(ac, av, MD5_OPTIONS)) != -1)
 	{
 		if (o == 'h' || o == BADCH || o == BADARG)
 			ft_exit(EXIT_FAILURE, g_hash_usage, av[0]);

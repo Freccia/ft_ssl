@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/17 15:43:32 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/18 16:24:34 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/07 22:52:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 ** Base64 isn't fixed
 */
 # define BASE64_DIGEST_SIZE		0
+# define BASE64_OPTIONS			"hpqrs:ed"
 
 /*
 ** BASE64 STRUCTURE

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/01/23 18:40:25 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/07 22:53:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 /*
 ** SSL Cipher Options
 */
-# define SSL_OPTIONS	"hpqrs:ed"
 # define SSL_OPT_P		1
 # define SSL_OPT_Q		2
 # define SSL_OPT_R		4

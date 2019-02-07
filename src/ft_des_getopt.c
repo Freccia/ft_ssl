@@ -1,48 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_base64_getopt.c                                 :+:      :+:    :+:   */
+/*   ft_des_getopt.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <>                                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 15:13:46 by marvin            #+#    #+#             */
-/*   Updated: 2019/02/07 22:58:56 by marvin           ###   ########.fr       */
+/*   Created: 2019/02/07 22:41:12 by marvin            #+#    #+#             */
+/*   Updated: 2019/02/07 22:57:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
-#include "base64.h"
-#include <limits.h>
+#include "ft_des.h"
 
-static const char	*g_base64_usage =
+static const char	*g_des_usage =
 {
 	"Usage: %s [ options ]\n"\
-	"		-h : Show this help message\n"\
-	"		-p : echo STDIN to STDOUT and append the checksum to STDOUT\n"\
-	"		-q : quiet mode\n"\
-	"		-r : reverse the format of the output\n"\
-	"		-s : print the sum of the given string\n"
-	"		-e : encode mode\n"
-	"		-d : dencode mode\n"
-};
+	"		-h : Show this help message\n"\	
+	"		-a : decode/encode the input/output in base64\n"\
+	"		-e : encryption mode (default)\n"\
+	"		-d : decryption mode\n"\
+	"		-i : input file for message\n"\
+	"		-k : key in hex is the next arguement\n"\
+	"		-o : output file for message\n"\
+	"		-p : password in ascii is the next argument\n"\
+	"		-s : the salt in hex is the next argument\n"\
+	"		-v : initialization vector in hex is the next argument\n"\
+	"\n"\
+}
 
-/*
-** Get options for SSLCipher, call SSLCipher digest functions.
-** (optind starts at zero to match the current option/argument)
-*/
-
-char		*ft_base64_getopt(int ac, char **av, t_ssl_cipher *cipher,
-		int64_t *opt)
+char *ft_des_getopt(int ac, char **av, t_ssl_cipher *ci, int64_t *opt)
 {
 	int		o;
 
 	g_optind = 1;
 	g_optreset = 1;
-	*opt = (*opt | SSL_OPT_ENC);
-	while (g_optind < ac && (o = ft_getopt(ac, av, BASE64_OPTIONS)) != -1)
+	while (g_optind  ac && (o = ft_getopt(ac, av, SSL_OPTIONS)) != -1)
 	{
 		if (o == 'h' || o == BADCH || o == BADARG)
-			ft_exit(EXIT_FAILURE, g_base64_usage, av[0]);
+			ft_exit(EXIT_FAILURE, g_des_usage, av[0]);
 		if (o == 's' && (*opt |= SSL_OPT_S))
 			cipher->ci_string(g_optarg, *opt);
 		else if (o == 'p')

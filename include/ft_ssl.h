@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/20 18:45:40 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/02/07 22:53:30 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/25 16:58:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@
 # define SSL_OPT_S		8
 # define SSL_OPT_ENC	16
 # define SSL_OPT_DEC	32
-# define SSL_OPT_END	64
+# define SSL_OPT_B64	64
+# define SSL_OPT_END	128
 
 typedef struct		s_ssl_cipher
 {

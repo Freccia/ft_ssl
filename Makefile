@@ -6,7 +6,7 @@
 #    By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2518/01/04 15:18:12 by lfabbro           #+#    #+#              #
-#    Updated: 2019/01/18 15:32:14 by marvin           ###   ########.fr        #
+#    Updated: 2019/02/25 17:01:30 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC_NAME		= \
 	ft_md5.c ft_md5_bis.c ft_md5_tool.c ft_md5_wrap.c \
 	ft_sha256.c ft_sha256_bis.c ft_sha256_wrap.c \
 	ft_ssl_base64.c ft_base64.c \
-	ft_base64_getopt.c ft_md5_getopt.c
+	ft_ssl_des.c ft_des.c \
+	ft_base64_getopt.c ft_md5_getopt.c ft_des_getopt.c
 
 # Directories
 SRC_PATH	= src

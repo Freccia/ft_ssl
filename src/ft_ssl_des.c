@@ -6,11 +6,16 @@
 /*   By: marvin <>                                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 18:58:25 by marvin            #+#    #+#             */
-/*   Updated: 2019/02/07 18:59:35 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/25 17:20:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ssl.h"
 #include "des.h"
 
-
+int		ft_des(t_des *ctx, const int opt)
+{
+	(void)ctx;
+	(void)opt;
+	return (EXIT_SUCCESS);
+}

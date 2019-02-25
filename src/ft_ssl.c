@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 15:41:07 by lfabbro           #+#    #+#             */
-/*   Updated: 2019/02/07 22:55:43 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/25 17:19:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static const t_ssl_cipher	g_cipher_des =
 	"DES",
 	sizeof(t_des),
 	ft_des_getopt,
-	des_string,
-	des_filter,
-	des_files
+	NULL,
+	NULL,
+	NULL
 };
 
 static const char	*g_ft_ssl_invalid_ciph =
@@ -109,11 +109,16 @@ int				ft_ssl(int ac, char **av, t_ssl_cipher *cipher)
 	int64_t		opt;
 
 	opt = 0;
-	ret = 0;
+	ret = EXIT_SUCCESS;
 	if (ac < 1)
 		return (EXIT_FAILURE);
 	cipher->ci_getopt(ac, av, cipher, &opt);
-	if (av[g_optind])
+
+/* This is temporary, you'd better find a more elegant solution.. */
+	if (cipher->name && !ft_strcmp(cipher->name, "des"))
+		return (EXIT_SUCCESS);
+
+	if (g_optind < ac && av[g_optind])
 		ret = cipher->ci_files(ac, av, opt);
 	else if (!(opt & SSL_OPT_S) && !(opt & SSL_OPT_P))//&&
 			//(g_optind == 1 || (opt & SSL_OPT_R) || (opt & SSL_OPT_Q)))

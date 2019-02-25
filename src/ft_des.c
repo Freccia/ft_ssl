@@ -6,12 +6,12 @@
 /*   By: marvin <>                                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/29 15:12:44 by marvin            #+#    #+#             */
-/*   Updated: 2019/02/07 18:57:55 by marvin           ###   ########.fr       */
+/*   Updated: 2019/02/25 17:20:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "des.h"
-#include "libft/include/libft.h"
+#include "libft.h"
 #include <inttypes.h>
 
 /* Key Permutation 1 */
@@ -226,7 +226,6 @@ void		process_message(uint8_t *msg, uint8_t *enc, t_keyset *ks, int mode)
 	int32_t		k;
 	int32_t		shift_size;
 	uint8_t		shift_byte;
-	uint8_t		shift_bits;
 	uint8_t		init_perm[8];
 	uint8_t		l[4];
 	uint8_t		r[4];
@@ -241,6 +240,7 @@ void		process_message(uint8_t *msg, uint8_t *enc, t_keyset *ks, int mode)
 
 	ft_memset(init_perm, 0, 8);
 	ft_memset(enc, 0, 8); /* eeuh... sure ?? */
+	/* pretty sure this is bad */
 
 	/* Initial Message Permutation */
 	i = 0;

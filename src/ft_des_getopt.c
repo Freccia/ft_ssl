@@ -6,7 +6,7 @@
 /*   By: marvin <>                                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/07 22:41:12 by marvin            #+#    #+#             */
-/*   Updated: 2019/02/25 17:20:18 by marvin           ###   ########.fr       */
+/*   Updated: 2019/04/04 11:54:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char *ft_des_getopt(int ac, char **av, t_ssl_cipher *ci, int64_t *opt)
 
 	while (g_optind < ac && (o = ft_getopt(ac, av, DES_OPTIONS)) != -1)
 	{
-		ft_printf("optind: %d\n", g_optind);
+//		ft_printf("optind: %d\n", g_optind);
 		if (o == 'h' || o == BADCH || o == BADARG)
 			ft_exit(EXIT_FAILURE, g_des_usage, av[0]);
 		else if (o == 'a')
